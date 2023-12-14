@@ -174,7 +174,6 @@ export FZF_CTRL_R_OPTS="
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-export PATH="/Users/iliutaadrian/Sites/golfgenius266:$PATH"
 alias vim="nvim"
 alias ls="exa --icons --group-directories-first --long --all" 
-export PATH="/Users/iliutaadrian/Sites/golfgenius266:$PATH"
+
