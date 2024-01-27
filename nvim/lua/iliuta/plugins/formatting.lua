@@ -22,6 +22,8 @@ return {
         ruby = { "rubocop" },
         php = { "phpcbf" },
         python = { "isort", "black" },
+        sh = { "beautysh" },
+        -- ["*"] = { "codespell" },
       },
       format_on_save = {
         lsp_fallback = true,

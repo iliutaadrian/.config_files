@@ -1,0 +1,61 @@
+# Configuration for Alacritty, the GPU enhanced terminal emulator.
+
+# Setup term for programs to be able to use it
+[env]
+TERM = "alacritty"
+
+[window]
+padding = { x = 5, y = 5 }
+decorations = "Buttonless"
+opacity = 0.9
+
+# Startup Mode (changes require restart)
+startup_mode = "Maximized"
+
+# Sample Font configuration for font: Monoid.
+# Feel free to use different font configuration family & face for each sections
+[font]
+# Normal font face - Also used to draw glyphs on tmux & VIM
+# NOTE: You may use any font you'd like but make sure the normal fonts
+# support ligatures/glyphs. That's used by tmux & VIM to provide a better
+# UI for powerline & tmux bottom bar.
+normal = { family = "JetBrainsMono Nerd Font Mono", style = "ExtraLight" }
+
+# Bold font face
+bold = { family = "JetBrainsMono Nerd Font Mono", style = "Bold" }
+
+# Italic font face
+italic = { family = "JetBrainsMono Nerd Font Mono", style = "Italic" }
+
+# Bold italic font face
+# Note: Since I don't have a font italic version of this font, I just specified
+# italic & it just works. You may specify the bold italic version if it exists
+# for your font
+bold_italic = { family = "JetBrainsMono Nerd Font Mono", style = "Italic" }
+
+# Font size
+size = 13.0
+
+[colors]
+transparent_background_colors = true
+
+[colors.normal]
+black   = '#0b3b61'
+red     = '#f7768e'
+green   = '#52ffcf'
+yellow  = '#fff383'
+blue    = '#1376f8'
+magenta = '#c792ea'
+cyan    = '#ff5dd4'
+white   = '#15fca2'
+
+[colors.primary]
+background = "#010b17"
+foreground = "#c6b0d4"
+
+[colors.selection]
+text   = "#38ff9c"
+background   = "#000000"
+
+
+
