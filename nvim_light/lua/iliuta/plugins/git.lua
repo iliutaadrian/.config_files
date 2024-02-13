@@ -49,47 +49,35 @@ return {
             { "<leader>hr", ":Gitsigns reset_hunk<CR>" },
             { "<leader>hR", ":Gitsigns reset_buffer<CR>" },
             { "<leader>gb", ":Gitsigns blame_line<CR>" },
-            { "[c", ":Gitsigns prev_hunk<CR>" },
-            { "]c", ":Gitsigns next_hunk<CR>" },
         },
         config = function(_, opts)
             require("gitsigns").setup(opts)
         end,
     },
     {
-        "kdheepak/lazygit.nvim",
-        cmd = "LazyGit",
+        "NeogitOrg/neogit",
+
         keys = {
-            { "<leader>gg", "<cmd>LazyGit<CR>", mode = "n", desc = "Open LazyGit" },
+            {
+                "<leader>gg",
+                "<cmd> Neogit<CR>",
+                mode = "n",
+                desc = "Open Neogit",
+            },
         },
-        config = function()
-            require("lazygit").setup()
+
+        dependencies = {
+            "nvim-lua/plenary.nvim", -- required
+            "nvim-telescope/telescope.nvim", -- optional
+            "sindrets/diffview.nvim", -- optional
+        },
+
+        config = function(_, opts)
+            require("neogit").setup(opts)
         end,
+
+        opts = {},
     },
-    -- {
-    --     "NeogitOrg/neogit",
-    --
-    --     keys = {
-    --         {
-    --             "<leader>gg",
-    --             "<cmd> Neogit<CR>",
-    --             mode = "n",
-    --             desc = "Open Neogit",
-    --         },
-    --     },
-    --
-    --     dependencies = {
-    --         "nvim-lua/plenary.nvim", -- required
-    --         "nvim-telescope/telescope.nvim", -- optional
-    --         "sindrets/diffview.nvim", -- optional
-    --     },
-    --
-    --     config = function(_, opts)
-    --         require("neogit").setup(opts)
-    --     end,
-    --
-    --     opts = {},
-    -- },
     {
         "sindrets/diffview.nvim",
         event = "BufEnter",

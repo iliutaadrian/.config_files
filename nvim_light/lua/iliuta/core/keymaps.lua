@@ -21,9 +21,6 @@ keymap.set("n", "<leader>uc", "~", { noremap = true, silent = true, desc = "Upca
 keymap.set("n", "<leader>uw", "viw~", { noremap = true, silent = true, desc = "Upcase word" })
 keymap.set("v", "<leader>up", "~", { noremap = true, silent = true, desc = "Upcase selection" })
 
--- refresh file
-keymap.set("n", "<leader>rr", ":e!<CR>", { desc = "Refresh file" })
-
 -- window management
 keymap.set("n", "<leader>sv", "<C-w>v", { desc = "Split window vertically" }) -- split window vertically
 keymap.set("n", "<leader>sh", "<C-w>s", { desc = "Split window horizontally" }) -- split window horizontally
@@ -64,32 +61,26 @@ vim.keymap.set({ "n", "v" }, "d", '"_d')
 -- Paste into new line
 vim.keymap.set("n", "<leader>p", "o<Esc>p")
 
--- Find and replace word under cursor
-vim.keymap.set("n", "<leader>fy", [[/<C-r><C-w><C-r><C-w><CR>]], { desc = "Find word under cursor" })
-vim.keymap.set(
-    "n",
-    "<leader>fx",
-    [[:%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>]],
-    { desc = "Find and replace word under cursor" }
-)
-
--- Advanced with plugins
---
 -- Python
 vim.api.nvim_set_keymap("n", "<leader>rp", ":w<CR>:!python3 %<CR>", { noremap = true })
 
 -- Codeium
+vim.g.codeium_filetypes = {
+    python = true,
+}
 vim.g.codeium_no_map_tab = true
-vim.keymap.set("i", "<C-c>", function()
+vim.keymap.set("i", "<C-g>", function()
     return vim.fn["codeium#Accept"]()
 end, { expr = true })
-
--- SymbolsOutline
-vim.keymap.set("n", "<leader>fs", ":SymbolsOutline<CR>", { noremap = true })
-
--- CMD line
-vim.keymap.set("n", ":", ":FineCmdline<CR>", { noremap = true })
-vim.keymap.set("n", ";", ":FineCmdline<CR>", { noremap = true })
+vim.keymap.set("i", "<c-'>", function()
+    return vim.fn["codeium#CycleCompletions"](1)
+end, { expr = true })
+vim.keymap.set("i", "<c-;>", function()
+    return vim.fn["codeium#CycleCompletions"](-1)
+end, { expr = true })
+vim.keymap.set("i", "<c-x>", function()
+    return vim.fn["codeium#Clear"]()
+end, { expr = true })
 
 -- bufferline
 vim.keymap.set("n", "<tab>", "<cmd>BufferLineCycleNext<CR>")
@@ -119,3 +110,10 @@ vim.keymap.set("n", "<leader>x", closeBuffer)
 vim.keymap.set("n", "<leader>bk", "<cmd>BufferLineCloseOthers<CR>", { desc = "Close other buffers" })
 
 vim.keymap.set("n", "<leader>oi", ":OrganizeImports<CR>", { desc = "Organize Imports" })
+vim.keymap.set("n", "<leader>fy", [[/<C-r><C-w><C-r><C-w><CR>]], { desc = "Find word under cursor" })
+vim.keymap.set(
+    "n",
+    "<leader>fx",
+    [[:%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>]],
+    { desc = "Find and replace word under cursor" }
+)

@@ -43,6 +43,3 @@ opt.splitbelow = true -- split horizontal window to the bottom
 
 -- turn off swapfile
 opt.swapfile = false
-
--- -- Set background color to transparent
--- vim.cmd("highlight Normal guibg=NONE ctermbg=NONE")

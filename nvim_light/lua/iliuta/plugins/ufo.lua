@@ -4,11 +4,9 @@ return {
     event = "VeryLazy",
     opts = {
         -- INFO: Uncomment to use treeitter as fold provider, otherwise nvim lsp is used
-        provider_selector = function(bufnr, filetype, buftype)
-            if filetype == "markdown" then
-                return { "treesitter", "indent" }
-            end
-        end,
+        -- provider_selector = function(bufnr, filetype, buftype)
+        --   return { "treesitter", "indent" }
+        -- end,
         open_fold_hl_timeout = 400,
         -- close_fold_kinds = { "imports", "comment" },
         offset = -3,
@@ -86,7 +84,6 @@ return {
         require("ufo").setup(opts)
         vim.keymap.set("n", "zR", require("ufo").openAllFolds)
         vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
-        vim.keymap.set("n", "zm", require("ufo").closeFoldsWith)
         vim.keymap.set("n", "zr", require("ufo").openFoldsExceptKinds)
         vim.keymap.set("n", "K", function()
             local winid = require("ufo").peekFoldedLinesUnderCursor()
