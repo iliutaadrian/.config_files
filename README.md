@@ -12,6 +12,7 @@
 ![Screenshot 2023-12-14 at 08 51 22](https://github.com/iliutaadrian/DEV-ENV-config/assets/11472785/705b4dbd-806c-4dfb-96c8-c5aec7214098)
 
 ### Neovim Setup
+Needs: fzf, ripgrep, cmake
 ![Screenshot 2023-12-14 at 08 50 25](https://github.com/iliutaadrian/DEV-ENV-config/assets/11472785/92cc63ec-eddc-42b2-9b69-ef608d4d600e)
 
 ![Screenshot 2023-12-14 at 08 50 14](https://github.com/iliutaadrian/DEV-ENV-config/assets/11472785/9e33807b-ce4a-4cf4-9eef-8df864a80ed8)
