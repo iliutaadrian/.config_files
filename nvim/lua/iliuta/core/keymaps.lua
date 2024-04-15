@@ -6,8 +6,11 @@ local keymap = vim.keymap -- for conciseness
 ----------------------- General Keymaps -------------------
 
 -- use jk to exit insert mode
-keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
-keymap.set("i", "<ESC>", "<ESC>", { desc = "Exit insert mode with ESC" })
+-- keymap.set("i", "jk", "<ESC>", { desc = "Exit insert mode with jk" })
+-- keymap.set("i", "<ESC>", "<ESC>", { desc = "Exit insert mode with ESC" })
+
+keymap.set("n", "j", "gj", { desc = "Move down in insert mode" })
+keymap.set("n", "k", "gk", { desc = "Move up in insert mode" })
 
 -- clear search highlights
 keymap.set("n", "<ESC>", ":nohl<CR>", { desc = "Clear search highlights" })
@@ -38,35 +41,35 @@ keymap.set("n", "<leader>ww", "<cmd> w<CR>", { desc = "Save current buffer" })
 keymap.set("n", "<leader>qq", "<cmd> qa<CR>", { desc = "Save current buffer" })
 
 --greatest remap ever
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move text up" })
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move text down" })
-vim.keymap.set("n", "J", "mzJ`z")
-vim.keymap.set("n", "<C-d>", "{zz")
-vim.keymap.set("n", "<C-u>", "}zz")
-vim.keymap.set("n", "n", "nzzzv")
-vim.keymap.set("n", "N", "Nzzzv")
-vim.keymap.set("n", "<C-a>", "gg<S-v>G")
+keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move text up" })
+keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move text down" })
+keymap.set("n", "J", "mzJ`z")
+keymap.set("n", "<C-d>", "{zz")
+keymap.set("n", "<C-u>", "}zz")
+keymap.set("n", "n", "nzzzv")
+keymap.set("n", "N", "Nzzzv")
+keymap.set("n", "<C-a>", "gg<S-v>G")
 
 -- move on insert
-vim.keymap.set("i", "<C-h>", "<left>")
-vim.keymap.set("i", "<C-l>", "<right>")
-vim.keymap.set("i", "<C-j>", "<down>")
-vim.keymap.set("i", "<C-k>", "<up>")
+keymap.set("i", "<C-h>", "<left>")
+keymap.set("i", "<C-l>", "<right>")
+keymap.set("i", "<C-j>", "<down>")
+keymap.set("i", "<C-k>", "<up>")
 
 -- keep tab
-vim.keymap.set("v", "<", "<gv")
-vim.keymap.set("v", ">", ">gv")
+keymap.set("v", "<", "<gv")
+keymap.set("v", ">", ">gv")
 
 -- Delete into void register
-vim.keymap.set({ "n", "v" }, "<leader>d", "dd")
-vim.keymap.set({ "n", "v" }, "d", '"_d')
+keymap.set({ "n", "v" }, "<leader>d", "dd")
+keymap.set({ "n", "v" }, "d", '"_d')
 
 -- Paste into new line
-vim.keymap.set("n", "<leader>p", "o<Esc>p")
+keymap.set("n", "<leader>p", "o<Esc>p")
 
 -- Find and replace word under cursor
-vim.keymap.set("n", "<leader>fy", [[/<C-r><C-w><C-r><C-w><CR>]], { desc = "Find word under cursor" })
-vim.keymap.set(
+keymap.set("n", "<leader>fy", [[/<C-r><C-w><C-r><C-w><CR>]], { desc = "Find word under cursor" })
+keymap.set(
     "n",
     "<leader>fx",
     [[:%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>]],
@@ -80,20 +83,16 @@ vim.api.nvim_set_keymap("n", "<leader>rp", ":w<CR>:!python3 %<CR>", { noremap = 
 
 -- Codeium
 vim.g.codeium_no_map_tab = true
-vim.keymap.set("i", "<C-c>", function()
+keymap.set("i", "<C-c>", function()
     return vim.fn["codeium#Accept"]()
 end, { expr = true })
 
 -- SymbolsOutline
-vim.keymap.set("n", "<leader>fs", ":SymbolsOutline<CR>", { noremap = true })
-
--- CMD line
-vim.keymap.set("n", ":", ":FineCmdline<CR>", { noremap = true })
-vim.keymap.set("n", ";", ":FineCmdline<CR>", { noremap = true })
+keymap.set("n", "<leader>fs", ":SymbolsOutline<CR>", { noremap = true })
 
 -- bufferline
-vim.keymap.set("n", "<tab>", "<cmd>BufferLineCycleNext<CR>")
-vim.keymap.set("n", "<S-tab>", "<cmd>BufferLineCyclePrev<CR>")
+keymap.set("n", "<tab>", "<cmd>BufferLineCycleNext<CR>")
+keymap.set("n", "<S-tab>", "<cmd>BufferLineCyclePrev<CR>")
 local function closeBuffer()
     local treeView = require("nvim-tree.view")
     local bufferline = require("bufferline")
@@ -115,7 +114,7 @@ local function closeBuffer()
     -- delete initially open buffer
     vim.cmd("bdelete! " .. bufferToDelete)
 end
-vim.keymap.set("n", "<leader>x", closeBuffer)
-vim.keymap.set("n", "<leader>bk", "<cmd>BufferLineCloseOthers<CR>", { desc = "Close other buffers" })
+keymap.set("n", "<leader>x", closeBuffer)
+keymap.set("n", "<leader>bk", "<cmd>BufferLineCloseOthers<CR>", { desc = "Close other buffers" })
 
-vim.keymap.set("n", "<leader>oi", ":OrganizeImports<CR>", { desc = "Organize Imports" })
+keymap.set("n", "<leader>oi", ":OrganizeImports<CR>", { desc = "Organize Imports" })

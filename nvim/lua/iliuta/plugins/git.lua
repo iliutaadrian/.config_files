@@ -62,9 +62,9 @@ return {
         keys = {
             { "<leader>gg", "<cmd>LazyGit<CR>", mode = "n", desc = "Open LazyGit" },
         },
-        config = function()
-            require("lazygit").setup()
-        end,
+        -- config = function()
+        --     require("lazygit").setup()
+        -- end,
     },
     -- {
     --     "NeogitOrg/neogit",
