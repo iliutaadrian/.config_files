@@ -207,3 +207,10 @@ cc() {
 }
 set -o vi
 export PATH="/Users/iliutaadrian/Sites/golfgenius266:$PATH"
+export PATH=/Library/PostgreSQL/9.5/bin:$PATH
+
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+export PATH="/Users/iliutaadrian:$PATH"
+export PATH="/Users/iliutaadrian/Sites/golfgenius266:$PATH"

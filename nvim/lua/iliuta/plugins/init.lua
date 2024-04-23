@@ -10,7 +10,7 @@ return {
         highlight_hovered_item = true,
         show_guides = true,
         auto_preview = false,
-        position = "right",
+        position = "left",
         relative_width = true,
         width = 25,
         auto_close = false,
@@ -131,8 +131,8 @@ return {
   {
     "ThePrimeagen/harpoon",
     keys = {
-      { "<leader>ha", ":lua require('harpoon.mark').add_file()<CR>", mode = "n", desc = "Mark File" },
-      { "<leader>hh", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", mode = "n", desc = "Harpoon" },
+      { "<leader>m", ":lua require('harpoon.mark').add_file()<CR>", mode = "n", desc = "Mark File" },
+      { "<leader>h", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", mode = "n", desc = "Harpoon" },
       { "<leader>1", ":lua require('harpoon.ui').nav_file(1)<CR>", mode = "n", desc = "Harpoon 1" },
       { "<leader>2", ":lua require('harpoon.ui').nav_file(2)<CR>", mode = "n", desc = "Harpoon 2" },
       { "<leader>3", ":lua require('harpoon.ui').nav_file(3)<CR>", mode = "n", desc = "Harpoon 3" },
