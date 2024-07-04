@@ -70,6 +70,9 @@ keymap.set({ "n" }, "p", "P", { desc = "Paste without overwriting register" })
 -- Paste into new line
 keymap.set("n", "<leader>p", "o<Esc>p")
 
+-- Yank to clipboard
+keymap.set("n", "<leader>y", "GVggy", { desc = "Yank to clipboard" })
+
 -- Find and replace word under cursor
 keymap.set("n", "<leader>fy", [[/<C-r><C-w><C-r><C-w><CR>]], { desc = "Find word under cursor" })
 keymap.set(
@@ -89,6 +92,8 @@ vim.g.codeium_no_map_tab = true
 keymap.set("i", "<C-c>", function()
   return vim.fn["codeium#Accept"]()
 end, { expr = true })
+keymap.set("n", "<leader>cd", "<Cmd>CodeiumDisable<CR>", { desc = "Disable codeium" })
+keymap.set("n", "<leader>ce", "<Cmd>CodeiumEnable<CR>", { desc = "Enable codeium" })
 
 -- SymbolsOutline
 keymap.set("n", "<leader>fs", ":SymbolsOutline<CR>", { noremap = true })

@@ -66,30 +66,51 @@ return {
     --     require("lazygit").setup()
     -- end,
   },
+
+  {
+    "exafunction/codeium.vim",
+    event = "BufEnter",
+    keys = {
+      -- {
+      --     "<C-c>",
+      --     function()
+      --         return vim.fn["codeium#Accept"]()
+      --     end,
+      --     mode = "i",
+      --     desc = "Accept",
+      -- },
+      {
+        "<C-x>",
+        function()
+          return vim.fn["codeium#Clear"]()
+        end,
+        mode = "i",
+        desc = "Clear",
+      },
+      {
+        "<C-f>",
+        function()
+          return vim.fn["codeium#CycleCompletions"](1)
+        end,
+        mode = "i",
+        desc = "Cycle Completions",
+      },
+    },
+  },
+
   -- {
-  --     "NeogitOrg/neogit",
-  --
-  --     keys = {
-  --         {
-  --             "<leader>gg",
-  --             "<cmd> Neogit<CR>",
-  --             mode = "n",
-  --             desc = "Open Neogit",
-  --         },
-  --     },
-  --
-  --     dependencies = {
-  --         "nvim-lua/plenary.nvim", -- required
-  --         "nvim-telescope/telescope.nvim", -- optional
-  --         "sindrets/diffview.nvim", -- optional
-  --     },
-  --
-  --     config = function(_, opts)
-  --         require("neogit").setup(opts)
-  --     end,
-  --
-  --     opts = {},
+  --   "supermaven-inc/supermaven-nvim",
+  --   config = function()
+  --     require("supermaven-nvim").setup({
+  --       -- your configuration here
+  --       keymaps = {
+  --         accept_suggestion = "<C-c>",
+  --         clear_suggestion = "<C-x>",
+  --       },
+  --     })
+  --   end,
   -- },
+
   {
     "sindrets/diffview.nvim",
     event = "BufEnter",

@@ -33,10 +33,10 @@ return {
         "tailwindcss",
         "svelte",
         "lua_ls",
-        "graphql",
         "emmet_ls",
         "prismals",
         "pyright",
+        "rubocop",
       },
     })
 
@@ -48,6 +48,7 @@ return {
         "black", -- python formatter
         "eslint_d", -- linter
         "pylint", -- linter
+        "rubocop", -- linter
       },
     })
   end,

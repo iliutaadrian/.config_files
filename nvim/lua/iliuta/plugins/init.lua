@@ -41,36 +41,6 @@ return {
   },
 
   {
-    "exafunction/codeium.vim",
-    event = "BufEnter",
-    keys = {
-      -- {
-      --     "<C-c>",
-      --     function()
-      --         return vim.fn["codeium#Accept"]()
-      --     end,
-      --     mode = "i",
-      --     desc = "Accept",
-      -- },
-      {
-        "<C-x>",
-        function()
-          return vim.fn["codeium#Clear"]()
-        end,
-        mode = "i",
-        desc = "Clear",
-      },
-      {
-        "<C-f>",
-        function()
-          return vim.fn["codeium#CycleCompletions"](1)
-        end,
-        mode = "i",
-        desc = "Cycle Completions",
-      },
-    },
-  },
-  {
     "mbbill/undotree",
     event = "BufEnter",
     keys = {
@@ -121,12 +91,12 @@ return {
       },
     },
   },
-  {
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    event = { "BufReadPre", "BufNewFile" },
-    opts = { indent = { char = "" } },
-  },
+  -- {
+  --   "lukas-reineke/indent-blankline.nvim",
+  --   main = "ibl",
+  --   event = { "BufReadPre", "BufNewFile" },
+  --   opts = { indent = { char = "" } },
+  -- },
 
   {
     "ThePrimeagen/harpoon",
