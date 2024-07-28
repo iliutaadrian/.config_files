@@ -61,11 +61,13 @@ lvim.builtin.which_key.mappings['f'] = {
   f = { "<cmd>Telescope find_files<cr>", "Fuzzy find files in cwd" },
   h = { "<cmd>Telescope help_tags<cr>", "Fuzzy find help tags" },
   k = { "<cmd>Telescope keymaps<cr>", "Fuzzy find keymaps" },
-  l = { "<cmd>Telescope resume<cr>", "Resume last search" },
   m = { "<cmd>Telescope marks<cr>", "Fuzzy find marks" },
   r = { "<cmd>Telescope resume<cr>", "Resume last search" },
   w = { "<cmd>Telescope live_grep<cr>", "Find string in cwd" },
   o = { "<cmd>Telescope oldfiles<cr>", "Fuzzy find old files" },
+  y = { [[/<C-r><C-w><C-r><C-w><CR>]], "Fuzzy find string in cwd" },
+  x = { [[:%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>]], "Fuzzy replace string in cwd" },
+  s = { ":lua require('spectre').open()<CR>", "Spectre" }
 }
 
 keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move text up" })
@@ -81,7 +83,7 @@ keymap.set("n", "<C-a>", "gg<S-v>G")
 keymap.set("i", "<C-h>", "<left>")
 keymap.set("i", "<C-l>", "<right>")
 keymap.set("i", "<C-j>", "<down>")
-keymap.set("i", "<C-k>", "<up>")
+keymap.set("i", "<C-k>", "<down>")
 
 -- keep tab
 keymap.set("v", "<", "<gv")
@@ -90,22 +92,10 @@ keymap.set("v", ">", ">gv")
 -- Delete into void register
 keymap.set({ "n", "v" }, "d", '"_d')
 keymap.set({ "n", "v" }, "c", '"_c')
-keymap.set({ "n" }, "p", "P", { desc = "Paste without overwriting register" })
+keymap.set({ "n", "v" }, "p", "P", { desc = "Paste without overwriting register" })
 
--- Paste into new line
-keymap.set("n", "<leader>p", "o<Esc>p")
-
--- Yank to clipboard
-keymap.set("n", "<leader>y", "GVggy", { desc = "Yank to clipboard" })
-
--- Find and replace word under cursor
-keymap.set("n", "<leader>fy", [[/<C-r><C-w><C-r><C-w><CR>]], { desc = "Find word under cursor" })
-keymap.set(
-  "n",
-  "<leader>fx",
-  [[:%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>]],
-  { desc = "Find and replace word under cursor" }
-)
+lvim.builtin.which_key.mappings["p"] = { "o<Esc>p", "Paste into new line" }
+lvim.builtin.which_key.mappings["y"] = { "GVggy", "Yank to clipboard" }
 
 -- Python
 vim.api.nvim_set_keymap("n", "<leader>rp", ":w<CR>:!python3 %<CR>", { noremap = true })
@@ -146,6 +136,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
     if vim.bo.filetype == "typescript" or vim.bo.filetype == "javascript" or vim.bo.filetype == "javascriptreact" or
         vim.bo.filetype == "typescriptreact"
     then
+      require("lvim.lsp.utils").format { timeout_ms = 2000, filter = require("lvim.lsp.utils").format_filter }
       return
     else
       require("lvim.lsp.utils").format { timeout_ms = 2000, filter = require("lvim.lsp.utils").format_filter }
@@ -157,15 +148,24 @@ keymap.set("n", "[d]", "<cmd>lua vim.diagnostic.goto_prev()<CR>", { desc = "Go t
 keymap.set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", { desc = "Go to next diagnostic message" })
 keymap.set("n", "D", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "Open floating diagnostic message" })
 
-
 lvim.builtin.dap.active = false
 lvim.builtin.alpha.active = false
-lvim.builtin.indentlines.options.char = "."
+lvim.builtin.indentlines.active = false
+-- lvim.builtin.indentlines.options.char = " | "
 lvim.builtin.nvimtree.setup.view.width = 50
-
 lvim.builtin.bufferline.options.mode = "tabs"
 
--- lvim.colorscheme = "tokyonight"
+-- lua/lvim/core/bufferline.lua
+-- change all true to false
+--
+-- cmp
+-- edit cmp mapping on lvim
+-- ["<Tab>"] = cmp.mapping.confirm({
+--   behavior = cmp.ConfirmBehavior.Insert,
+--   select = true,
+-- }, { "i", "s" }),
+
+lvim.colorscheme = "tokyonight"
 
 lvim.plugins = {
   {
@@ -206,6 +206,7 @@ lvim.plugins = {
       vim.cmd([[colorscheme tokyonight]])
     end,
   },
+
   {
     "stevearc/dressing.nvim",
     config = function()
@@ -215,7 +216,6 @@ lvim.plugins = {
     end,
   },
   "christoomey/vim-tmux-navigator", -- tmux & split window navigation
-
   {
     "mbbill/undotree",
     event = "BufEnter",
@@ -226,9 +226,9 @@ lvim.plugins = {
 
   {
     "nvim-pack/nvim-spectre",
-    keys = {
-      { "<leader>sp", ":lua require('spectre').open()<CR>", mode = "n", desc = "Spectre" },
-    },
+  },
+  {
+    "tpope/vim-surround",
   },
 
   {
@@ -389,7 +389,7 @@ lvim.plugins = {
     opts = {
       -- INFO: Uncomment to use treeitter as fold provider, otherwise nvim lsp is used
       provider_selector = function(bufnr, filetype, buftype)
-        if filetype == "markdown" then
+        if filetype == "markdown" or filetype == "yaml" then
           return { "treesitter", "indent" }
         end
       end,
@@ -485,13 +485,33 @@ lvim.plugins = {
     "kchmck/vim-coffee-script",
   },
   {
+    "tpope/vim-rails",
+    cmd = {
+      "Eview",
+      "Econtroller",
+      "Emodel",
+      "Smodel",
+      "Sview",
+      "Scontroller",
+      "Vmodel",
+      "Vview",
+      "Vcontroller",
+      "Tmodel",
+      "Tview",
+      "Tcontroller",
+      "Rails",
+      "Generate",
+      "Runner",
+      "Extract"
+    }
+  },
+  { 'wakatime/vim-wakatime', lazy = false },
+
+  {
     "karb94/neoscroll.nvim",
     event = "WinScrolled",
     config = function()
       require('neoscroll').setup({
-        -- All these keys will be mapped to their corresponding default scrolling animation
-        mappings = { '<C-u>', '<C-d>', '<C-b>', '<C-f>',
-          '<C-y>', '<C-e>', 'zt', 'zz', 'zb' },
         hide_cursor = true,          -- Hide cursor while scrolling
         stop_eof = true,             -- Stop at <EOF> when scrolling downwards
         use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
@@ -501,18 +521,20 @@ lvim.plugins = {
         pre_hook = nil,              -- Function to run before the scrolling animation starts
         post_hook = nil,             -- Function to run after the scrolling animation ends
       })
+      neoscroll = require('neoscroll')
+      local keymap = {
+        ["<C-b>"] = function() neoscroll.ctrl_b({ duration = 450 }) end,
+        ["<C-f>"] = function() neoscroll.ctrl_f({ duration = 450 }) end,
+        ["<C-i>"] = function() neoscroll.scroll(-0.3, { move_cursor = true, duration = 100 }) end,
+        ["<C-u>"] = function() neoscroll.scroll(0.3, { move_cursor = true, duration = 100 }) end,
+        ["zt"]    = function() neoscroll.zt({ half_win_duration = 250 }) end,
+        ["zz"]    = function() neoscroll.zz({ half_win_duration = 250 }) end,
+        ["zb"]    = function() neoscroll.zb({ half_win_duration = 250 }) end,
+      }
+      local modes = { 'n', 'v', 'x' }
+      for key, func in pairs(keymap) do
+        vim.keymap.set(modes, key, func)
+      end
     end
   },
-  {
-    "folke/lsp-colors.nvim",
-    event = "BufReadPre",
-    config = function()
-      require("lsp-colors").setup({
-        Error = "#db4b4b",
-        Warning = "#e0af68",
-        Information = "#073b05",
-        Hint = "#053b29",
-      })
-    end
-  }
 }

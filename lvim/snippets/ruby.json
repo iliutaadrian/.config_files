@@ -1,0 +1,9 @@
+{
+  "binp": {
+    "prefix": "binp",
+    "body": [
+      "binding.pry"
+    ],
+    "description": "binding.pry"
+  }
+}
