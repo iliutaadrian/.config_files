@@ -23,51 +23,52 @@ lvim.builtin.which_key.mappings["u"] = {
   name = "Upcase",
   c = { "~", "Upcase char" },
   w = { "viw~", "Upcase word" },
-  p = { "~", "Upcase selection" }
+  p = { "~", "Upcase selection" },
 }
 
 -- refresh file
-lvim.builtin.which_key.mappings['rr'] = { "<cmd> e!<CR>", "Refresh file" }
+lvim.builtin.which_key.mappings["rr"] = { "<cmd> e!<CR>", "Refresh file" }
 
-lvim.builtin.which_key.mappings['c'] = {}
+lvim.builtin.which_key.mappings["c"] = {}
 
 -- window management
-lvim.builtin.which_key.mappings['s'] = {
+lvim.builtin.which_key.mappings["s"] = {
   name = "Split",
   v = { "<C-w>v", "Split vertical" },
   h = { "<C-w>s", "Split horizontal" },
-  e = { "<C-w>=", "Make splits equal size" }
+  e = { "<C-w>=", "Make splits equal size" },
 }
 
 -- increment/decrement window
-lvim.builtin.which_key.mappings['='] = { "<cmd>vertical resize +10<CR>", "Increase window size" }
-lvim.builtin.which_key.mappings['-'] = { "<cmd>vertical resize -10<CR>", "Decrease window size" }
+lvim.builtin.which_key.mappings["="] = { "<cmd>vertical resize +10<CR>", "Increase window size" }
+lvim.builtin.which_key.mappings["-"] = { "<cmd>vertical resize -10<CR>", "Decrease window size" }
 
 -- basic file management
-lvim.builtin.which_key.mappings['x'] = { "<cmd> qa!<CR>", "Close nvim" }
-lvim.builtin.which_key.mappings['w'] = { "<cmd> w<CR>", "Save current buffer" }
-lvim.builtin.which_key.mappings['W'] = { "<cmd> noa w<CR>", "Save without formatting" }
-lvim.builtin.which_key.mappings['a'] = { "<cmd> wa<CR>", "Save all buffers" }
-lvim.builtin.which_key.mappings['q'] = { "<cmd> q<CR>", "Close current buffer" }
+lvim.builtin.which_key.mappings["x"] = { "<cmd> qa!<CR>", "Close nvim" }
+lvim.builtin.which_key.mappings["w"] = { "<cmd> w<CR>", "Save current buffer" }
+lvim.builtin.which_key.mappings["W"] = { "<cmd> noa w<CR>", "Save without formatting" }
+lvim.builtin.which_key.mappings["a"] = { "<cmd> wa<CR>", "Save all buffers" }
+lvim.builtin.which_key.mappings["q"] = { "<cmd> q<CR>", "Close current buffer" }
 
 -- search
 lvim.builtin.telescope.theme = "center"
-lvim.builtin.which_key.mappings['f'] = {
+lvim.builtin.which_key.mappings["f"] = {
   name = "Telescope",
   C = { "<cmd>Telescope commands<cr>", "Fuzzy find commands" },
   M = { "<cmd>Telescope man_pages<cr>", "Fuzzy find man pages" },
   b = { "<cmd>Telescope buffers<cr>", "Fuzzy find buffers" },
   c = { "<cmd>Telescope grep_string<cr>", "Find string under cursor in cwd" },
   f = { "<cmd>Telescope find_files<cr>", "Fuzzy find files in cwd" },
+  g = { "<cmd>Telescope git_files<cr>", "Find git modifications" },
   h = { "<cmd>Telescope help_tags<cr>", "Fuzzy find help tags" },
   k = { "<cmd>Telescope keymaps<cr>", "Fuzzy find keymaps" },
   m = { "<cmd>Telescope marks<cr>", "Fuzzy find marks" },
-  r = { "<cmd>Telescope resume<cr>", "Resume last search" },
-  w = { "<cmd>Telescope live_grep<cr>", "Find string in cwd" },
   o = { "<cmd>Telescope oldfiles<cr>", "Fuzzy find old files" },
-  y = { [[/<C-r><C-w><C-r><C-w><CR>]], "Fuzzy find string in cwd" },
+  r = { "<cmd>Telescope resume<cr>", "Resume last search" },
+  s = { ":lua require('spectre').open()<CR>", "Spectre" },
+  w = { "<cmd>Telescope live_grep<cr>", "Find string in cwd" },
   x = { [[:%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>]], "Fuzzy replace string in cwd" },
-  s = { ":lua require('spectre').open()<CR>", "Spectre" }
+  y = { [[/<C-r><C-w><C-r><C-w><CR>]], "Fuzzy find string in cwd" },
 }
 
 keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move text up" })
@@ -133,13 +134,16 @@ vim.api.nvim_create_autocmd("BufWritePre", {
   -- group = "lsp_format_on_save",
   pattern = "*",
   callback = function()
-    if vim.bo.filetype == "typescript" or vim.bo.filetype == "javascript" or vim.bo.filetype == "javascriptreact" or
-        vim.bo.filetype == "typescriptreact"
+    if
+        vim.bo.filetype == "typescript"
+        or vim.bo.filetype == "javascript"
+        or vim.bo.filetype == "javascriptreact"
+        or vim.bo.filetype == "typescriptreact"
     then
-      require("lvim.lsp.utils").format { timeout_ms = 2000, filter = require("lvim.lsp.utils").format_filter }
+      require("lvim.lsp.utils").format({ timeout_ms = 2000, filter = require("lvim.lsp.utils").format_filter })
       return
     else
-      require("lvim.lsp.utils").format { timeout_ms = 2000, filter = require("lvim.lsp.utils").format_filter }
+      require("lvim.lsp.utils").format({ timeout_ms = 2000, filter = require("lvim.lsp.utils").format_filter })
     end
   end,
 })
@@ -148,7 +152,6 @@ keymap.set("n", "[d]", "<cmd>lua vim.diagnostic.goto_prev()<CR>", { desc = "Go t
 keymap.set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", { desc = "Go to next diagnostic message" })
 keymap.set("n", "D", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "Open floating diagnostic message" })
 
-lvim.builtin.dap.active = false
 lvim.builtin.alpha.active = false
 lvim.builtin.indentlines.active = false
 -- lvim.builtin.indentlines.options.char = " | "
@@ -166,6 +169,13 @@ lvim.builtin.bufferline.options.mode = "tabs"
 -- }, { "i", "s" }),
 
 lvim.colorscheme = "tokyonight"
+
+-- Add key mappings for LSP functionality
+lvim.lsp.buffer_mappings.normal_mode['gd'] = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Go to definition" }
+lvim.lsp.buffer_mappings.normal_mode['gr'] = { "<cmd>lua vim.lsp.buf.references()<CR>", "Go to references" }
+lvim.lsp.buffer_mappings.normal_mode['gi'] = { "<cmd>lua vim.lsp.buf.implementation()<CR>", "Go to implementation" }
+lvim.lsp.buffer_mappings.normal_mode['K'] = { "<cmd>lua vim.lsp.buf.hover()<CR>", "Show hover information" }
+
 
 lvim.plugins = {
   {
@@ -482,6 +492,23 @@ lvim.plugins = {
     end,
   },
   {
+    "leath-dub/snipe.nvim",
+    keys = {
+      {
+        "<leader>t",
+        function()
+          require("snipe").open_buffer_menu()
+        end,
+        desc = "Open Snipe buffer menu",
+      },
+    },
+    opts = {
+      ui = {
+        position = "center"
+      },
+    },
+  },
+  {
     "kchmck/vim-coffee-script",
   },
   {
@@ -502,16 +529,16 @@ lvim.plugins = {
       "Rails",
       "Generate",
       "Runner",
-      "Extract"
-    }
+      "Extract",
+    },
   },
-  { 'wakatime/vim-wakatime', lazy = false },
+  { "wakatime/vim-wakatime", lazy = false },
 
   {
     "karb94/neoscroll.nvim",
     event = "WinScrolled",
     config = function()
-      require('neoscroll').setup({
+      require("neoscroll").setup({
         hide_cursor = true,          -- Hide cursor while scrolling
         stop_eof = true,             -- Stop at <EOF> when scrolling downwards
         use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
@@ -521,20 +548,34 @@ lvim.plugins = {
         pre_hook = nil,              -- Function to run before the scrolling animation starts
         post_hook = nil,             -- Function to run after the scrolling animation ends
       })
-      neoscroll = require('neoscroll')
+      neoscroll = require("neoscroll")
       local keymap = {
-        ["<C-b>"] = function() neoscroll.ctrl_b({ duration = 450 }) end,
-        ["<C-f>"] = function() neoscroll.ctrl_f({ duration = 450 }) end,
-        ["<C-i>"] = function() neoscroll.scroll(-0.3, { move_cursor = true, duration = 100 }) end,
-        ["<C-u>"] = function() neoscroll.scroll(0.3, { move_cursor = true, duration = 100 }) end,
-        ["zt"]    = function() neoscroll.zt({ half_win_duration = 250 }) end,
-        ["zz"]    = function() neoscroll.zz({ half_win_duration = 250 }) end,
-        ["zb"]    = function() neoscroll.zb({ half_win_duration = 250 }) end,
+        ["<C-b>"] = function()
+          neoscroll.ctrl_b({ duration = 450 })
+        end,
+        ["<C-f>"] = function()
+          neoscroll.ctrl_f({ duration = 450 })
+        end,
+        ["<C-i>"] = function()
+          neoscroll.scroll(-0.3, { move_cursor = true, duration = 100 })
+        end,
+        ["<C-u>"] = function()
+          neoscroll.scroll(0.3, { move_cursor = true, duration = 100 })
+        end,
+        ["zt"] = function()
+          neoscroll.zt({ half_win_duration = 250 })
+        end,
+        ["zz"] = function()
+          neoscroll.zz({ half_win_duration = 250 })
+        end,
+        ["zb"] = function()
+          neoscroll.zb({ half_win_duration = 250 })
+        end,
       }
-      local modes = { 'n', 'v', 'x' }
+      local modes = { "n", "v", "x" }
       for key, func in pairs(keymap) do
         vim.keymap.set(modes, key, func)
       end
-    end
+    end,
   },
 }
