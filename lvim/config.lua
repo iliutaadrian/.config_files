@@ -1,22 +1,34 @@
--- Read the docs: https://www.lunarvim.org/docs/configuration
--- Example configs: https://github.com/LunarVim/starter.lvim
--- Video Tutorials: https://www.youtube.com/watch?v=sFA9kX-Ud_c&list=PLhoH5vyxr6QqGu0i7tt_XoVK9v-KvZ3m6
--- Forum: https://www.reddit.com/r/lunarvim/
--- Discord: https://discord.com/invite/Xb9B4Ny
-
 vim.opt.relativenumber = true
 vim.opt.wrap = true
 
+lvim.colorscheme = "tokyonight"
+
 local keymap = vim.keymap -- for conciseness
+
+-- disable h, l in normal mode
+keymap.set("n", "h", "<Nop>")
+keymap.set("n", "l", "<Nop>")
+lvim.builtin.which_key.mappings["h"] = nil
+
+-- command line
+-- keymap.set("n", ":", ":<C-f>i", { desc = "Command line" })
 
 keymap.set("n", "j", "gj", { desc = "Move down in insert mode" })
 keymap.set("n", "k", "gk", { desc = "Move up in insert mode" })
 
 -- clear search highlights
-keymap.set("n", "<ESC>", ":nohl<CR>", { desc = "Clear search highlights" })
+keymap.set("n", "<ESC>", ":nohl<CR><ESC>", { desc = "Clear search highlights" })
 
 -- redo
 keymap.set("n", "U", "<C-r>", { desc = "Redo" })
+
+-- increase
+keymap.set("n", "+", "<C-a>", { desc = "Increase number" })
+keymap.set("n", "-", "<C-x>", { desc = "Decrease number" })
+
+-- scroll
+keymap.set("n", "<C-d>", "<C-d>zz")
+keymap.set("n", "<C-u>", "<C-u>zz")
 
 -- upcase
 lvim.builtin.which_key.mappings["u"] = {
@@ -37,6 +49,7 @@ lvim.builtin.which_key.mappings["s"] = {
   v = { "<C-w>v", "Split vertical" },
   h = { "<C-w>s", "Split horizontal" },
   e = { "<C-w>=", "Make splits equal size" },
+  m = { "<C-w>_<C-w>|", "Maximize window" },
 }
 
 -- increment/decrement window
@@ -45,8 +58,8 @@ lvim.builtin.which_key.mappings["-"] = { "<cmd>vertical resize -10<CR>", "Decrea
 
 -- basic file management
 lvim.builtin.which_key.mappings["x"] = { "<cmd> qa!<CR>", "Close nvim" }
-lvim.builtin.which_key.mappings["w"] = { "<cmd> w<CR>", "Save current buffer" }
-lvim.builtin.which_key.mappings["W"] = { "<cmd> noa w<CR>", "Save without formatting" }
+lvim.builtin.which_key.mappings["W"] = { "<cmd> w<CR>", "Save current buffer" }
+lvim.builtin.which_key.mappings["w"] = { "<cmd> noa w<CR>", "Save without formatting" }
 lvim.builtin.which_key.mappings["a"] = { "<cmd> wa<CR>", "Save all buffers" }
 lvim.builtin.which_key.mappings["q"] = { "<cmd> q<CR>", "Close current buffer" }
 
@@ -71,20 +84,23 @@ lvim.builtin.which_key.mappings["f"] = {
   y = { [[/<C-r><C-w><C-r><C-w><CR>]], "Fuzzy find string in cwd" },
 }
 
+lvim.builtin.which_key.mappings["gd"] = {
+  ":DiffviewOpen<CR>", "Diiff view open"
+}
+
+lvim.builtin.which_key.mappings["gf"] = {
+  ":DiffviewFileHistory %<CR>", "File history"
+}
+
 keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move text up" })
 keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move text down" })
-keymap.set("n", "J", "mzJ`z")
-keymap.set("n", "<C-d>", "{zz")
-keymap.set("n", "<C-u>", "}zz")
-keymap.set("n", "n", "nzzzv")
-keymap.set("n", "N", "Nzzzv")
 keymap.set("n", "<C-a>", "gg<S-v>G")
 
 -- move on insert
 keymap.set("i", "<C-h>", "<left>")
 keymap.set("i", "<C-l>", "<right>")
 keymap.set("i", "<C-j>", "<down>")
-keymap.set("i", "<C-k>", "<down>")
+keymap.set("i", "<C-k>", "<up>")
 
 -- keep tab
 keymap.set("v", "<", "<gv")
@@ -128,29 +144,11 @@ vim.diagnostic.config({
   },
 })
 
--- Remove format on save for typescript
-lvim.format_on_save = false
-vim.api.nvim_create_autocmd("BufWritePre", {
-  -- group = "lsp_format_on_save",
-  pattern = "*",
-  callback = function()
-    if
-        vim.bo.filetype == "typescript"
-        or vim.bo.filetype == "javascript"
-        or vim.bo.filetype == "javascriptreact"
-        or vim.bo.filetype == "typescriptreact"
-    then
-      require("lvim.lsp.utils").format({ timeout_ms = 2000, filter = require("lvim.lsp.utils").format_filter })
-      return
-    else
-      require("lvim.lsp.utils").format({ timeout_ms = 2000, filter = require("lvim.lsp.utils").format_filter })
-    end
-  end,
-})
 
 keymap.set("n", "[d]", "<cmd>lua vim.diagnostic.goto_prev()<CR>", { desc = "Go to previous diagnostic message" })
 keymap.set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", { desc = "Go to next diagnostic message" })
 keymap.set("n", "D", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "Open floating diagnostic message" })
+
 
 lvim.builtin.alpha.active = false
 lvim.builtin.indentlines.active = false
@@ -160,15 +158,52 @@ lvim.builtin.bufferline.options.mode = "tabs"
 
 -- lua/lvim/core/bufferline.lua
 -- change all true to false
---
--- cmp
+
+-- CMP
 -- edit cmp mapping on lvim
 -- ["<Tab>"] = cmp.mapping.confirm({
 --   behavior = cmp.ConfirmBehavior.Insert,
 --   select = true,
 -- }, { "i", "s" }),
 
-lvim.colorscheme = "tokyonight"
+-- Remove format on save for typescript
+lvim.format_on_save.enabled = true
+lvim.format_on_save.timeout = 4000
+
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+--   -- group = "lsp_format_on_save",
+--   pattern = "*",
+--   callback = function()
+--     local file_extension = vim.fn.expand("%:e")
+--     print(file_extension)
+--     if file_extension ~= "" and (
+--           file_extension == "jsx"
+--           or file_extension == "js"
+--           or file_extension == "tsx"
+--           or file_extension == "ts"
+--         ) then
+--       -- Skip formatting for these file extensions
+--       return
+--     else
+--       -- Apply formatting for other file extensions or no extension
+--       require("lvim.lsp.utils").format({ timeout_ms = 2000, filter = require("lvim.lsp.utils").format_filter })
+--     end
+--   end,
+-- })
+
+-- Rubocop
+local lspconfig = require('lspconfig')
+lspconfig.rubocop.setup {
+  cmd = { "rubocop", "--lsp" },
+  root_dir = lspconfig.util.root_pattern("Gemfile", ".rubocop.yml", ".git"),
+  settings = {
+    rubocop = {
+      filetypes = { "ruby" },
+      -- lint = true,
+      autoformat = true,
+    }
+  },
+}
 
 -- Add key mappings for LSP functionality
 lvim.lsp.buffer_mappings.normal_mode['gd'] = { "<cmd>lua vim.lsp.buf.definition()<CR>", "Go to definition" }
@@ -178,6 +213,11 @@ lvim.lsp.buffer_mappings.normal_mode['K'] = { "<cmd>lua vim.lsp.buf.hover()<CR>"
 
 
 lvim.plugins = {
+  {
+    "dgox16/oldworld.nvim",
+    lazy = false,
+    priority = 1000,
+  },
   {
     "folke/tokyonight.nvim",
     priority = 1000, -- make sure to load this before all the other start plugins
@@ -238,13 +278,28 @@ lvim.plugins = {
     "nvim-pack/nvim-spectre",
   },
   {
-    "tpope/vim-surround",
+    "mg979/vim-visual-multi", 
+    keys = { "<C-n>", "<C-Up>", "<C-Down>" }
   },
-
+  {
+    "tpope/vim-surround", 
+  },
   {
     "folke/flash.nvim",
     event = "VeryLazy",
-    opts = {},
+    opts = {
+      modes = {
+        -- options used when flsash is activated through
+        -- a regular search with `/` or `?`
+        search = {
+          enabled = true,
+        },
+        char = {
+          enabled = true,
+          autohide = true,
+        },
+      },
+    },
     keys = {
       {
         "s",
@@ -267,7 +322,7 @@ lvim.plugins = {
         desc = "Flash",
       },
       {
-        "S",
+        "<C-s>",
         mode = { "n", "x", "o" },
 
         function()
@@ -281,6 +336,7 @@ lvim.plugins = {
   {
     "ThePrimeagen/harpoon",
     dependencies = { "nvim-lua/plenary.nvim" },
+    event = "BufEnter",
     keys = {
       { "<leader>m", ":lua require('harpoon.mark').add_file()<CR>",        mode = "n", desc = "Mark File" },
       { "<leader>h", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", mode = "n", desc = "Harpoon" },
@@ -478,6 +534,7 @@ lvim.plugins = {
       end
       opts["fold_virt_text_handler"] = handler
       require("ufo").setup(opts)
+
       vim.keymap.set("n", "zR", require("ufo").openAllFolds)
       vim.keymap.set("n", "zM", require("ufo").closeAllFolds)
       vim.keymap.set("n", "zm", require("ufo").closeFoldsWith)
@@ -511,71 +568,62 @@ lvim.plugins = {
   {
     "kchmck/vim-coffee-script",
   },
-  {
-    "tpope/vim-rails",
-    cmd = {
-      "Eview",
-      "Econtroller",
-      "Emodel",
-      "Smodel",
-      "Sview",
-      "Scontroller",
-      "Vmodel",
-      "Vview",
-      "Vcontroller",
-      "Tmodel",
-      "Tview",
-      "Tcontroller",
-      "Rails",
-      "Generate",
-      "Runner",
-      "Extract",
-    },
-  },
   { "wakatime/vim-wakatime", lazy = false },
 
   {
-    "karb94/neoscroll.nvim",
-    event = "WinScrolled",
+    "sindrets/diffview.nvim",
+    event = "BufEnter",
+    -- keys = {
+    --   { "<leader>gd", ":DiffviewOpen<CR>",          mode = "n", desc = "Diiff view open" },
+    --   { "<leader>gf", ":DiffviewFileHistory %<CR>", mode = "n", desc = "File history" },
+    -- },
     config = function()
-      require("neoscroll").setup({
-        hide_cursor = true,          -- Hide cursor while scrolling
-        stop_eof = true,             -- Stop at <EOF> when scrolling downwards
-        use_local_scrolloff = false, -- Use the local scope of scrolloff instead of the global scope
-        respect_scrolloff = false,   -- Stop scrolling when the cursor reaches the scrolloff margin of the file
-        cursor_scrolls_alone = true, -- The cursor will keep on scrolling even if the window cannot scroll further
-        easing_function = nil,       -- Default easing function
-        pre_hook = nil,              -- Function to run before the scrolling animation starts
-        post_hook = nil,             -- Function to run after the scrolling animation ends
-      })
-      neoscroll = require("neoscroll")
-      local keymap = {
-        ["<C-b>"] = function()
-          neoscroll.ctrl_b({ duration = 450 })
-        end,
-        ["<C-f>"] = function()
-          neoscroll.ctrl_f({ duration = 450 })
-        end,
-        ["<C-i>"] = function()
-          neoscroll.scroll(-0.3, { move_cursor = true, duration = 100 })
-        end,
-        ["<C-u>"] = function()
-          neoscroll.scroll(0.3, { move_cursor = true, duration = 100 })
-        end,
-        ["zt"] = function()
-          neoscroll.zt({ half_win_duration = 250 })
-        end,
-        ["zz"] = function()
-          neoscroll.zz({ half_win_duration = 250 })
-        end,
-        ["zb"] = function()
-          neoscroll.zb({ half_win_duration = 250 })
-        end,
-      }
-      local modes = { "n", "v", "x" }
-      for key, func in pairs(keymap) do
-        vim.keymap.set(modes, key, func)
-      end
+      require("diffview").setup()
     end,
-  },
+  }
+
+  -- {
+  --   "karb94/neoscroll.nvim",
+  --   event = "winscrolled",
+  --   config = function()
+  --     require("neoscroll").setup({
+  --       hide_cursor = true,          -- hide cursor while scrolling
+  --       stop_eof = true,             -- stop at <eof> when scrolling downwards
+  --       use_local_scrolloff = false, -- use the local scope of scrolloff instead of the global scope
+  --       respect_scrolloff = false,   -- stop scrolling when the cursor reaches the scrolloff margin of the file
+  --       cursor_scrolls_alone = true, -- the cursor will keep on scrolling even if the window cannot scroll further
+  --       easing_function = nil,       -- default easing function
+  --       pre_hook = nil,              -- function to run before the scrolling animation starts
+  --       post_hook = nil,             -- function to run after the scrolling animation ends
+  --     })
+  --     neoscroll = require("neoscroll")
+  --     local keymap = {
+  --       ["<c-b>"] = function()
+  --         neoscroll.ctrl_b({ duration = 450 })
+  --       end,
+  --       ["<c-f>"] = function()
+  --         neoscroll.ctrl_f({ duration = 450 })
+  --       end,
+  --       ["<c-i>"] = function()
+  --         neoscroll.scroll(-0.3, { move_cursor = true, duration = 100 })
+  --       end,
+  --       ["<c-u>"] = function()
+  --         neoscroll.scroll(0.3, { move_cursor = true, duration = 100 })
+  --       end,
+  --       ["zt"] = function()
+  --         neoscroll.zt({ half_win_duration = 250 })
+  --       end,
+  --       ["zz"] = function()
+  --         neoscroll.zz({ half_win_duration = 250 })
+  --       end,
+  --       ["zb"] = function()
+  --         neoscroll.zb({ half_win_duration = 250 })
+  --       end,
+  --     }
+  --     local modes = { "n", "v", "x" }
+  --     for key, func in pairs(keymap) do
+  --       vim.keymap.set(modes, key, func)
+  --     end
+  --   end,
+  -- },
 }

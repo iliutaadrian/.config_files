@@ -1,3 +1,6 @@
+# for performance
+# modload zsh/zprof
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
@@ -80,71 +83,13 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-export NVM_DIR=~/.nvm
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" --no-use # This loads nvm
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-# [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
-alias node='unalias node ; unalias npm ; nvm use default ; node $@'
-alias npm='unalias node ; unalias npm ; nvm use default ; npm $@'
-plugins=(git zsh-syntax-highlighting zsh-exa fzf nvm)
-
 source $ZSH/oh-my-zsh.sh
 
-if [ -z $TMUX ]
-then
-    tmux attach -t default || tmux new -s default
-fi
-alias tmux="tmux attach -t default || tmux new -s default"
+
+eval "$(fzf --zsh)"
 
 export FZF_DEFAULT_OPTS="--preview 'bat --color=always {}' --height 40%"
 export FZF_COMPLETION_OPTS='--border --info=inline'
-# fzf to cd folders
-fzf_cd() {
-  local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune \
-                  -o -type d -print 2> /dev/null | fzf +m) &&
-  cd "$dir"
-}
-bindkey '^f' fzf_cd
-
-# Completion
-export FZF_COMPLETION_TRIGGER='-'
-_fzf_compgen_path() {
-  fd --hidden --follow --exclude ".git" . "$1"
-}
-
-# Use fd to generate the list for directory completion
-_fzf_compgen_dir() {
-  fd --type d --hidden --follow --exclude ".git" . "$1"
-}
-
-# Advanced customization of fzf options via _fzf_comprun function
-# - The first argument to the function is the name of the command.
-# - You should make sure to pass the rest of the arguments to fzf.
-_fzf_comprun() {
-  local command=$1
-  shift
-
-  case "$command" in
-    cd)           fzf --preview 'tree -C {} | head -200'   "$@" ;;
-    export|unset) fzf --preview "eval 'echo \$'{}"         "$@" ;;
-    ssh)          fzf --preview 'dig {}'                   "$@" ;;
-    *)            fzf --preview 'bat -n --color=always {}' "$@" ;;
-  esac
-}
-
-export FZF_CTRL_T_OPTS="
-  --preview 'bat -n --color=always {}'
-  --bind 'ctrl-/:change-preview-window(down|hidden|)'"
-
-export FZF_CTRL_R_OPTS="
-  --preview 'echo {}' --preview-window up:3:hidden:wrap
-  --bind 'ctrl-/:toggle-preview'
-  --bind 'ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort'
-  --color header:italic
-  --header 'Press CTRL-Y to copy command into clipboard'"
-
 
 # User configuration
 
@@ -157,7 +102,6 @@ export FZF_CTRL_R_OPTS="
 # if [[ -n $SSH_CONNECTION ]]; then
 #   export EDITOR='vim'
 # else
-#   export EDITOR='mvim'
 # fi
 
 # Compilation flags
@@ -174,9 +118,112 @@ export FZF_CTRL_R_OPTS="
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-alias vim="nvim"
-alias vim="nvim"
-alias vi="nvim"
-alias ls="exa --icons --group-directories-first --long --all" 
+
+# TMUX
+alias c="clear"
+cc() {
+  clear
+  tmux clear-history
+}
+# if [ -z $TMUX ]
+
+#     tmux attach -d
+# fi
+
+# Aliases
+alias vim="lvim"
+alias nvim="nvim"
+
 alias cat="bat"
 alias life="cd Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/Life\ OS"
+alias ll="ls -la"
+
+function yy() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
+
+alias x="exit 0"
+alias lg="lazygit"
+
+alias nz="cd && lvim .zshrc"
+alias src="echo 'source ~/.zshrc' && source ~/.zshrc"
+
+alias python="python3"
+alias pip="pip3"
+
+# Enable vim mode
+set -o vi
+KEYTIMEOUT=1
+
+
+eval "$(direnv hook zsh)"
+
+# Link Openssl 1.1 -------------------------------------------------------------
+# Add to path
+export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+
+# For compilers to find
+export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+
+# or pkg-config to find
+export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+
+# RVM
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
+
+# NVM
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh" # This loads nvm
+# [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
+# source ~/.nvm/nvm.sh
+# nvm use default --silent
+
+# Lazy load NVM
+export NVM_DIR="$HOME/.nvm"
+lazy_nvm() {
+  unset -f nvm node npm npx
+  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use
+  nvm use default --silent
+}
+nvm() {
+  lazy_nvm
+  nvm "$@"
+}
+node() {
+  lazy_nvm
+  node "$@"
+}
+npm() {
+  lazy_nvm
+  npm "$@"
+}
+npx() {
+  lazy_nvm
+  npx "$@"
+}
+
+# Fix postgress error
+export PGGSSENCMODE="disable"
+
+# Fix NSCFConstantString initialize error
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES  
+
+export PYENV_ROOT="$HOME/.pyenv"
+
+export PATH="/usr/local/opt/postgresql@12/bin:$PATH"
+# export PGDATA="/usr/local/var/postgresql@12/postgresql.conf"
+export PATH="/Users/iliutaadrian/.local/bin:$PATH"
+
+export PATH="/Users/iliutaadrian/Library/Python/3.12/bin:$PATH"
+
+export PATH="~/.config/emacs/bin:$PATH"
+
+# zprof
+
