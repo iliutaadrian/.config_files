@@ -1,69 +1,241 @@
 // Place your key bindings in this file to override the defaults
 [
-  // NAVIGATION
-  // {
-  //   "key": "ctrl+shift+a",
-  //   "command": "workbench.action.terminal.focusNext",
-  //   "when": "terminalFocus"
-  // },
-  // {
-  //   "key": "ctrl+t",
-  //   "command": "workbench.action.togglePanel"
-  // },
-  // {
-  //   "key": "ctrl+n",
-  //   "command": "workbench.action.terminal.new",
-  //   "when": "terminalFocus"
-  // },
-  // {
-  //   "key": "ctrl+d",
-  //   "command": "workbench.action.terminal.kill",
-  //   "when": "terminalFocus"
-  // },
+  // GENERAL
+  {
+    "key": "ctrl+t",
+    "command": "workbench.action.togglePanel",
+  },
+  {
+    "key": "ctrl+m",
+    "command": "runCommands",
+    "args": {
+      "commands": [
+        "workbench.action.toggleMaximizedPanel",
+        "workbench.action.closeSidebar",
+        "workbench.action.closeAuxiliaryBar"
+      ]
+    }
+  },
+  {
+    "key": "space w",
+    "command": "workbench.action.files.saveWithoutFormatting",
+    "when": "(vim.mode == 'Normal' || vim.mode == 'VisualLine') && !panelMaximized"
+  },
+  {
+    "key": "space q",
+    "command": "workbench.action.closeActiveEditor",
+    "when": "vim.mode == 'Normal' && editorTextFocus && !panelMaximized"
+  },
 
-  // FILE TREE
-  // {
-  //   "command": "workbench.action.toggleSidebarVisibility",
-  //   "key": "ctrl+e"
-  // },
-  // {
-  //   "command": "workbench.files.action.focusFilesExplorer",
-  //   "key": "ctrl+e",
-  //   "when": "editorTextFocus"
-  // },
+  // NAVIGATION
+  {
+    "key": "ctrl-h",
+    "command": "workbench.action.navigateLeft",
+    "when": "!panelMaximized"
+  },
+  {
+    "key": "ctrl-l",
+    "command": "workbench.action.navigateRight",
+    "when": "!panelMaximized"
+  },
+  {
+    "key": "ctrl-k",
+    "command": "workbench.action.navigateUp",
+    "when": "!panelMaximized"
+  },
+  {
+    "key": "ctrl-j",
+    "command": "workbench.action.navigateDown",
+    "when": "!panelMaximized"
+  },
+  {
+    "key": "tab",
+    "command": "workbench.action.nextEditorInGroup",
+    "when": "(vim.mode == 'Normal' || vim.mode == 'Visual') && (editorTextFocus || !inputFocus) && !panelMaximized"
+  },
+  {
+    "key": "shift-tab",
+    "command": "workbench.action.previousEditorInGroup",
+    "when": "(vim.mode == 'Normal' || vim.mode == 'Visual') && (editorTextFocus || !inputFocus) && !panelMaximized"
+  },
+
+  // SIDEBAR AND FILE EXPLORER
+  {
+    "key": "space e",
+    "command": "runCommands",
+    "args": {
+      "commands": [
+        "workbench.action.toggleSidebarVisibility",
+        "workbench.files.action.focusFilesExplorer"
+      ]
+    },
+    "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus) && !sideBarFocus && !panelMaximized"
+  },
+  {
+    "key": "space e",
+    "command": "runCommands",
+    "args": {
+      "commands": [
+        "workbench.action.toggleSidebarVisibility",
+        "workbench.action.focusActiveEditorGroup"
+      ]
+    },
+    "when": "sideBarFocus && !inputFocus && !panelMaximized"
+  },
+  {
+    "key": "space e",
+    "when": "vim.mode == 'Normal' && editorTextFocus && foldersViewVisible && !panelMaximized",
+    "command": "workbench.action.toggleSidebarVisibility"
+  },
+
+  // CODING AND EDITING
+  {
+    "key": "shift-j",
+    "command": "editor.action.moveLinesDownAction",
+    "when": "vim.mode == 'VisualLine' && editorTextFocus && !panelMaximized"
+  },
+  {
+    "key": "shift-k",
+    "command": "editor.action.moveLinesUpAction",
+    "when": "vim.mode == 'VisualLine' && editorTextFocus && !panelMaximized"
+  },
+  {
+    "key": "shift-k",
+    "command": "editor.action.showHover",
+    "when": "vim.mode == 'Normal' && editorTextFocus && !panelMaximized"
+  },
+  {
+    "key": "space l a",
+    "command": "editor.action.codeAction",
+    "when": "vim.mode == 'Normal' && editorTextFocus && !panelMaximized"
+  },
+  {
+    "key": "space l r",
+    "command": "editor.action.rename",
+    "when": "vim.mode == 'Normal' && editorTextFocus && !panelMaximized"
+  },
+  {
+    "key": "space l f",
+    "command": "editor.action.formatDocument",
+    "when": "vim.mode == 'Normal' && editorTextFocus && !panelMaximized"
+  },
+  {
+    "key": "ctrl-n",
+    "command": "editor.action.addSelectionToNextFindMatch",
+    "when": "(vim.mode == 'Normal' || vim.mode == 'Visual') && (editorTextFocus || !inputFocus) && !panelMaximized"
+  },
+
+  // SEARCH AND NAVIGATION
+  {
+    "key": "space g s",
+    "command": "workbench.action.gotoSymbol",
+    "when": "vim.mode == 'Normal' && editorTextFocus && !panelMaximized"
+  },
+  {
+    "key": "space f b",
+    "command": "workbench.action.showAllEditors",
+    "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus) && !panelMaximized"
+  },
+  {
+    "key": "space f f",
+    "command": "workbench.action.quickOpen",
+    "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus) && !panelMaximized"
+  },
+  {
+    "key": "space f p",
+    "command": "projectManager.listGitProjects#sideBarGit",
+    "when": "vim.mode == 'Normal' && !panelMaximized"
+  },
+  {
+    "key": "space g d",
+    "command": "editor.action.revealDefinition",
+    "when": "vim.mode == 'Normal' && editorTextFocus && !panelMaximized"
+  },
+  {
+    "key": "space g r",
+    "command": "editor.action.goToReferences",
+    "when": "vim.mode == 'Normal' && editorTextFocus && !panelMaximized"
+  },
+  {
+    "key": "space f w",
+    "command": "workbench.action.findInFiles",
+    "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus) && !panelMaximized"
+  },
+
+  // SOURCE CONTROL
+  {
+    "key": "space g g",
+    "command": "runCommands",
+    "when": "vim.mode == 'Normal' && (editorTextFocus || !inputFocus) && !panelMaximized",
+    "args": {
+      "commands": [
+        "workbench.view.scm",
+        "workbench.scm.focus"
+      ]
+    }
+  },
+
+  // FILE EXPLORER OPERATIONS
+  {
+    "key": "r",
+    "command": "renameFile",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus && !panelMaximized"
+  },
+  {
+    "key": "c",
+    "command": "filesExplorer.copy",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus && !panelMaximized"
+  },
+  {
+    "key": "p",
+    "command": "filesExplorer.paste",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus && !panelMaximized"
+  },
+  {
+    "key": "x",
+    "command": "filesExplorer.cut",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus && !panelMaximized"
+  },
+  {
+    "key": "d",
+    "command": "deleteFile",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus && !panelMaximized"
+  },
   {
     "key": "a",
     "command": "explorer.newFile",
-    "when": "filesExplorerFocus && !inputFocus"
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus && !panelMaximized"
   },
   {
-    "command": "renameFile",
-    "key": "r",
-    "when": "filesExplorerFocus && !inputFocus"
-  },
-  {
-    "key": "shift+n",
+    "key": "shift-a",
     "command": "explorer.newFolder",
-    "when": "explorerViewletFocus"
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus && !panelMaximized"
   },
   {
-    "key": "shift+n",
-    "command": "workbench.action.newWindow",
-    "when": "!explorerViewletFocus"
+    "key": "s",
+    "command": "explorer.openToSide",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus && !panelMaximized"
   },
   {
-    "command": "deleteFile",
-    "key": "d",
-    "when": "filesExplorerFocus && !inputFocus"
+    "key": "shift-s",
+    "command": "runCommands",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceReadonly && !inputFocus && !panelMaximized",
+    "args": {
+      "commands": [
+        "workbench.action.splitEditorDown",
+        "explorer.openAndPassFocus",
+        "workbench.action.closeOtherEditors"
+      ]
+    }
   },
   {
-    "key": "ctrl+b",
-    "command": "-cursorLeft",
-    "when": "textInputFocus"
+    "key": "enter",
+    "command": "explorer.openAndPassFocus",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && !explorerResourceIsFolder && !inputFocus && !panelMaximized"
   },
   {
-    "key": "ctrl+b",
-    "command": "-extension.vim_ctrl+b",
-    "when": "editorTextFocus && vim.active && vim.use<C-b> && !inDebugRepl && vim.mode != 'Insert'"
-  },
+    "key": "enter",
+    "command": "list.toggleExpand",
+    "when": "filesExplorerFocus && foldersViewVisible && !explorerResourceIsRoot && explorerResourceIsFolder && !inputFocus && !panelMaximized"
+  }
 ]

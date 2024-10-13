@@ -1,5 +1,5 @@
 # for performance
-# modload zsh/zprof
+# zmodload zsh/zprof
 
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
@@ -83,8 +83,11 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 
-source $ZSH/oh-my-zsh.sh
+plugins=(git zapmarks)
 
+bindkey '^B' zapmarks
+
+source $ZSH/oh-my-zsh.sh
 
 eval "$(fzf --zsh)"
 
@@ -100,7 +103,7 @@ export FZF_COMPLETION_OPTS='--border --info=inline'
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
+export EDITOR='lvim'
 # else
 # fi
 
@@ -125,16 +128,15 @@ cc() {
   clear
   tmux clear-history
 }
-# if [ -z $TMUX ]
 
-#     tmux attach -d
+# if [ -z $TMUX ]
+#   tmux attach -d
 # fi
 
 # Aliases
 alias vim="lvim"
 alias nvim="nvim"
 
-alias cat="bat"
 alias life="cd Library/Mobile\ Documents/iCloud\~md\~obsidian/Documents/Life\ OS"
 alias ll="ls -la"
 
@@ -161,11 +163,15 @@ set -o vi
 KEYTIMEOUT=1
 
 
+
+# GG
 eval "$(direnv hook zsh)"
 
 # Link Openssl 1.1 -------------------------------------------------------------
 # Add to path
 export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+
+export PATH="/Users/iliutaadrian/.cargo/bin:$PATH"  
 
 # For compilers to find
 export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
@@ -222,8 +228,6 @@ export PATH="/usr/local/opt/postgresql@12/bin:$PATH"
 export PATH="/Users/iliutaadrian/.local/bin:$PATH"
 
 export PATH="/Users/iliutaadrian/Library/Python/3.12/bin:$PATH"
-
-export PATH="~/.config/emacs/bin:$PATH"
 
 # zprof
 

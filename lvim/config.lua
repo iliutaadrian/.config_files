@@ -2,19 +2,24 @@ vim.opt.relativenumber = true
 vim.opt.wrap = true
 
 lvim.colorscheme = "tokyonight"
+vim.opt.conceallevel = 1
 
 local keymap = vim.keymap -- for conciseness
 
 -- disable h, l in normal mode
-keymap.set("n", "h", "<Nop>")
-keymap.set("n", "l", "<Nop>")
-lvim.builtin.which_key.mappings["h"] = nil
+-- keymap.set("n", "h", "<Nop>")
+-- keymap.set("n", "l", "<Nop>")
+-- lvim.builtin.which_key.mappings["h"] = nil
 
 -- command line
--- keymap.set("n", ":", ":<C-f>i", { desc = "Command line" })
+keymap.set("n", ";", ":<C-f>i", { desc = "Command line" })
 
+-- move paragraph
 keymap.set("n", "j", "gj", { desc = "Move down in insert mode" })
 keymap.set("n", "k", "gk", { desc = "Move up in insert mode" })
+
+keymap.set("n", "L", "$", { desc = "Move to end of line" })
+keymap.set("n", "H", "_", { desc = "Move to start of line" })
 
 -- clear search highlights
 keymap.set("n", "<ESC>", ":nohl<CR><ESC>", { desc = "Clear search highlights" })
@@ -35,7 +40,6 @@ lvim.builtin.which_key.mappings["u"] = {
   name = "Upcase",
   c = { "~", "Upcase char" },
   w = { "viw~", "Upcase word" },
-  p = { "~", "Upcase selection" },
 }
 
 -- refresh file
@@ -61,7 +65,7 @@ lvim.builtin.which_key.mappings["x"] = { "<cmd> qa!<CR>", "Close nvim" }
 lvim.builtin.which_key.mappings["W"] = { "<cmd> w<CR>", "Save current buffer" }
 lvim.builtin.which_key.mappings["w"] = { "<cmd> noa w<CR>", "Save without formatting" }
 lvim.builtin.which_key.mappings["a"] = { "<cmd> wa<CR>", "Save all buffers" }
-lvim.builtin.which_key.mappings["q"] = { "<cmd> q<CR>", "Close current buffer" }
+lvim.builtin.which_key.mappings["q"] = { "<cmd> BufferKill<CR>", "Close current buffer" }
 
 -- search
 lvim.builtin.telescope.theme = "center"
@@ -69,7 +73,7 @@ lvim.builtin.which_key.mappings["f"] = {
   name = "Telescope",
   C = { "<cmd>Telescope commands<cr>", "Fuzzy find commands" },
   M = { "<cmd>Telescope man_pages<cr>", "Fuzzy find man pages" },
-  b = { "<cmd>Telescope buffers<cr>", "Fuzzy find buffers" },
+  b = { "<cmd>Telescope current_buffer_fuzzy_find<cr>", "Fuzzy in buffer" },
   c = { "<cmd>Telescope grep_string<cr>", "Find string under cursor in cwd" },
   f = { "<cmd>Telescope find_files<cr>", "Fuzzy find files in cwd" },
   g = { "<cmd>Telescope git_files<cr>", "Find git modifications" },
@@ -125,8 +129,6 @@ end, { expr = true })
 keymap.set("n", "<leader>cd", "<Cmd>CodeiumDisable<CR>", { desc = "Disable codeium" })
 keymap.set("n", "<leader>ce", "<Cmd>CodeiumEnable<CR>", { desc = "Enable codeium" })
 
-keymap.set("n", "<leader>bk", "<cmd>BufferLineCloseOthers<CR>", { desc = "Close other buffers" })
-
 keymap.set("n", "<leader>oi", ":OrganizeImports<CR>", { desc = "Organize Imports" })
 
 -- Diagnostic messages
@@ -145,7 +147,7 @@ vim.diagnostic.config({
 })
 
 
-keymap.set("n", "[d]", "<cmd>lua vim.diagnostic.goto_prev()<CR>", { desc = "Go to previous diagnostic message" })
+keymap.set("n", "[d", "<cmd>lua vim.diagnostic.goto_prev()<CR>", { desc = "Go to previous diagnostic message" })
 keymap.set("n", "]d", "<cmd>lua vim.diagnostic.goto_next()<CR>", { desc = "Go to next diagnostic message" })
 keymap.set("n", "D", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "Open floating diagnostic message" })
 
@@ -154,7 +156,7 @@ lvim.builtin.alpha.active = false
 lvim.builtin.indentlines.active = false
 -- lvim.builtin.indentlines.options.char = " | "
 lvim.builtin.nvimtree.setup.view.width = 50
-lvim.builtin.bufferline.options.mode = "tabs"
+lvim.builtin.bufferline.options.mode = "buffers"
 
 -- lua/lvim/core/bufferline.lua
 -- change all true to false
@@ -214,11 +216,6 @@ lvim.lsp.buffer_mappings.normal_mode['K'] = { "<cmd>lua vim.lsp.buf.hover()<CR>"
 
 lvim.plugins = {
   {
-    "dgox16/oldworld.nvim",
-    lazy = false,
-    priority = 1000,
-  },
-  {
     "folke/tokyonight.nvim",
     priority = 1000, -- make sure to load this before all the other start plugins
     config = function()
@@ -258,14 +255,104 @@ lvim.plugins = {
   },
 
   {
-    "stevearc/dressing.nvim",
-    config = function()
-      require("dressing").setup({
-        input = { enabled = false },
-      })
-    end,
+    "epwalsh/obsidian.nvim",
+    version = "*", -- recommended, use latest release instead of latest commit
+    lazy = true,
+    ft = "markdown",
+    -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
+    -- event = {
+    --   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
+    --   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
+    --   -- refer to `:h file-pattern` for more examples
+    --   "BufReadPre path/to/my-vault/*.md",
+    --   "BufNewFile path/to/my-vault/*.md",
+    -- },
+    dependencies = {
+      -- Required.
+      "nvim-lua/plenary.nvim",
+
+      -- see below for full list of optional dependencies 👇
+    },
+    opts = {
+      workspaces = {
+        {
+          name = "personal",
+          path = "/Users/iliutaadrian/Library/Mobile Documents/iCloud~md~obsidian/Documents/Life OS",
+        },
+      },
+      mappings = {
+        -- Overrides the 'gf' mapping to work on markdown/wiki links within your vault.
+        ["gf"] = {
+          action = function()
+            return require("obsidian").util.gf_passthrough()
+          end,
+          opts = { noremap = false, expr = true, buffer = true },
+        },
+        -- Toggle check-boxes.
+        ["<leader>ch"] = {
+          action = function()
+            return require("obsidian").util.toggle_checkbox()
+          end,
+          opts = { buffer = true },
+        },
+        -- Smart action depending on context, either follow link or toggle checkbox.
+        ["<cr>"] = {
+          action = function()
+            return require("obsidian").util.smart_action()
+          end,
+          opts = { buffer = true, expr = true },
+        }
+      },
+      ui = {
+        enable = true,          -- set to false to disable all additional syntax features
+        update_debounce = 200,  -- update delay after a text change (in milliseconds)
+        max_file_length = 5000, -- disable UI features for files with more than this many lines
+        -- Define how various check-boxes are displayed
+        checkboxes = {
+          -- NOTE: the 'char' value has to be a single character, and the highlight groups are defined below.
+          [" "] = { char = "󰄱", hl_group = "ObsidianTodo" },
+          ["x"] = { char = "", hl_group = "ObsidianDone" },
+          [">"] = { char = "", hl_group = "ObsidianRightArrow" },
+          ["~"] = { char = "󰰱", hl_group = "ObsidianTilde" },
+          ["!"] = { char = "", hl_group = "ObsidianImportant" },
+          -- Replace the above with this if you don't have a patched font:
+          -- [" "] = { char = "☐", hl_group = "ObsidianTodo" },
+          -- ["x"] = { char = "✔", hl_group = "ObsidianDone" },
+
+          -- You can also add more custom ones...
+        },
+        -- Use bullet marks for non-checkbox lists.
+        bullets = { char = "•", hl_group = "ObsidianBullet" },
+        external_link_icon = { char = "", hl_group = "ObsidianExtLinkIcon" },
+        -- Replace the above with this if you don't have a patched font:
+        -- external_link_icon = { char = "", hl_group = "ObsidianExtLinkIcon" },
+        reference_text = { hl_group = "ObsidianRefText" },
+        highlight_text = { hl_group = "ObsidianHighlightText" },
+        tags = { hl_group = "ObsidianTag" },
+        block_ids = { hl_group = "ObsidianBlockID" },
+        hl_groups = {
+          -- The options are passed directly to `vim.api.nvim_set_hl()`. See `:help nvim_set_hl`.
+          ObsidianTodo = { bold = true, fg = "#f78c6c" },
+          ObsidianDone = { bold = true, fg = "#89ddff" },
+          ObsidianRightArrow = { bold = true, fg = "#f78c6c" },
+          ObsidianTilde = { bold = true, fg = "#ff5370" },
+          ObsidianImportant = { bold = true, fg = "#d73128" },
+          ObsidianBullet = { bold = true, fg = "#89ddff" },
+          ObsidianRefText = { underline = true, fg = "#c792ea" },
+          ObsidianExtLinkIcon = { fg = "#c792ea" },
+          ObsidianTag = { italic = true, fg = "#89ddff" },
+          ObsidianBlockID = { italic = true, fg = "#89ddff" },
+          ObsidianHighlightText = { bg = "#75662e" },
+        },
+      },
+
+    },
   },
-  "christoomey/vim-tmux-navigator", -- tmux & split window navigation
+
+  {
+    "christoomey/vim-tmux-navigator", -- tmux & split window navigation
+  },
+
   {
     "mbbill/undotree",
     event = "BufEnter",
@@ -277,13 +364,16 @@ lvim.plugins = {
   {
     "nvim-pack/nvim-spectre",
   },
+
   {
-    "mg979/vim-visual-multi", 
+    "mg979/vim-visual-multi",
     keys = { "<C-n>", "<C-Up>", "<C-Down>" }
   },
+
   {
-    "tpope/vim-surround", 
+    "tpope/vim-surround",
   },
+
   {
     "folke/flash.nvim",
     event = "VeryLazy",
@@ -338,14 +428,20 @@ lvim.plugins = {
     dependencies = { "nvim-lua/plenary.nvim" },
     event = "BufEnter",
     keys = {
-      { "<leader>m", ":lua require('harpoon.mark').add_file()<CR>",        mode = "n", desc = "Mark File" },
-      { "<leader>h", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", mode = "n", desc = "Harpoon" },
-      { "<leader>1", ":lua require('harpoon.ui').nav_file(1)<CR>",         mode = "n", desc = "Harpoon 1" },
-      { "<leader>2", ":lua require('harpoon.ui').nav_file(2)<CR>",         mode = "n", desc = "Harpoon 2" },
-      { "<leader>3", ":lua require('harpoon.ui').nav_file(3)<CR>",         mode = "n", desc = "Harpoon 3" },
-      { "<leader>4", ":lua require('harpoon.ui').nav_file(4)<CR>",         mode = "n", desc = "Harpoon 4" },
+      -- { "<leader>m", ":lua require('harpoon.mark').add_file()<CR>",        mode = "n", desc = "Mark File" },
+      -- { "<leader>h", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", mode = "n", desc = "Harpoon" },
+      -- { "<leader>1", ":lua require('harpoon.ui').nav_file(1)<CR>",         mode = "n", desc = "Harpoon 1" },
+      -- { "<leader>2", ":lua require('harpoon.ui').nav_file(2)<CR>",         mode = "n", desc = "Harpoon 2" },
+      -- { "<leader>3", ":lua require('harpoon.ui').nav_file(3)<CR>",         mode = "n", desc = "Harpoon 3" },
+      -- { "<leader>4", ":lua require('harpoon.ui').nav_file(4)<CR>",         mode = "n", desc = "Harpoon 4" },
+      { "<leader>bk", "<cmd>BufferLineCloseOthers<CR>",  mode = "n", desc = "Close Other Buffers" },
+      { "<leader>1",  "<cmd>BufferLineGoToBuffer 1<CR>", mode = "n", desc = "Harpoon 1" },
+      { "<leader>2",  "<cmd>BufferLineGoToBuffer 2<CR>", mode = "n", desc = "Harpoon 2" },
+      { "<leader>3",  "<cmd>BufferLineGoToBuffer 3<CR>", mode = "n", desc = "Harpoon 3" },
+      { "<leader>4",  "<cmd>BufferLineGoToBuffer 4<CR>", mode = "n", desc = "Harpoon 4" },
     },
   },
+
   {
     "exafunction/codeium.vim",
     event = "BufEnter",
@@ -384,15 +480,7 @@ lvim.plugins = {
       require("dashboard").setup({
         theme = "hyper",
         config = {
-          header = {
-            "o 8  o          o                .oo      8        o              ",
-            "8 8             8               .P 8      8                       ",
-            "8 8 o8 o    o  o8P .oPYo.      .P  8 .oPYo8 oPYo. o8 .oPYo. odYo. ",
-            "8 8  8 8    8   8  .oooo8     oPooo8 8    8 8  `'  8 .oooo8 8' `8 ",
-            "8 8  8 8    8   8  8    8    .P    8 8    8 8      8 8    8 8   8 ",
-            "8 8  8 `YooP'   8  `YooP8   .P     8 `YooP' 8      8 `YooP8 8   8 ",
-            "....:..:.....:::..::.....:::..:::::..:.....:..:::::..:.....:..::..",
-          },
+          header = {},
           disable_move = { enabled = true },
           packages = { enabled = true },
           footer = {},
@@ -580,50 +668,21 @@ lvim.plugins = {
     config = function()
       require("diffview").setup()
     end,
+  },
+  {
+    "echasnovski/mini.ai",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter-textobjects",
+    },
+    config = function()
+      require("mini.ai").setup()
+    end,
+  },
+  {
+    "arnamak/stay-centered.nvim",
+    lazy = false,
+    opts = {
+      skip_filetypes = { 'lua', 'typescript' },
+    }
   }
-
-  -- {
-  --   "karb94/neoscroll.nvim",
-  --   event = "winscrolled",
-  --   config = function()
-  --     require("neoscroll").setup({
-  --       hide_cursor = true,          -- hide cursor while scrolling
-  --       stop_eof = true,             -- stop at <eof> when scrolling downwards
-  --       use_local_scrolloff = false, -- use the local scope of scrolloff instead of the global scope
-  --       respect_scrolloff = false,   -- stop scrolling when the cursor reaches the scrolloff margin of the file
-  --       cursor_scrolls_alone = true, -- the cursor will keep on scrolling even if the window cannot scroll further
-  --       easing_function = nil,       -- default easing function
-  --       pre_hook = nil,              -- function to run before the scrolling animation starts
-  --       post_hook = nil,             -- function to run after the scrolling animation ends
-  --     })
-  --     neoscroll = require("neoscroll")
-  --     local keymap = {
-  --       ["<c-b>"] = function()
-  --         neoscroll.ctrl_b({ duration = 450 })
-  --       end,
-  --       ["<c-f>"] = function()
-  --         neoscroll.ctrl_f({ duration = 450 })
-  --       end,
-  --       ["<c-i>"] = function()
-  --         neoscroll.scroll(-0.3, { move_cursor = true, duration = 100 })
-  --       end,
-  --       ["<c-u>"] = function()
-  --         neoscroll.scroll(0.3, { move_cursor = true, duration = 100 })
-  --       end,
-  --       ["zt"] = function()
-  --         neoscroll.zt({ half_win_duration = 250 })
-  --       end,
-  --       ["zz"] = function()
-  --         neoscroll.zz({ half_win_duration = 250 })
-  --       end,
-  --       ["zb"] = function()
-  --         neoscroll.zb({ half_win_duration = 250 })
-  --       end,
-  --     }
-  --     local modes = { "n", "v", "x" }
-  --     for key, func in pairs(keymap) do
-  --       vim.keymap.set(modes, key, func)
-  --     end
-  --   end,
-  -- },
 }

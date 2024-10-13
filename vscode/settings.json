@@ -1,8 +1,6 @@
 {
-    "workbench.colorTheme": "Tokyo Night",
     "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font Mono",
-    "terminal.external.osxExec": "Alacritty.app",
-    "editor.formatOnSave": true,
+    "terminal.external.osxExec": "",
     "editor.accessibilitySupport": "off",
     "editor.stickyScroll.enabled": false,
     "editor.suggest.insertMode": "replace",
@@ -21,261 +19,6 @@
     "vim.leader": "<Space>",
     "vim.hlsearch": true,
     "vim.normalModeKeyBindingsNonRecursive": [
-        // NAVIGATION
-        // switch b/w buffers
-        {
-            "before": [
-                "<S-Tab>"
-            ],
-            "commands": [
-                ":bprevious"
-            ]
-        },
-        {
-            "before": [
-                "<Tab>"
-            ],
-            "commands": [
-                ":bnext"
-            ]
-        },
-        // harpoon
-        {
-            "before": [
-                "leader",
-                "h"
-            ],
-            "commands": [
-                "workbench.action.showAllEditorsByMostRecentlyUsed",
-            ]
-        },
-        // undotree
-        {
-            "before": [
-                "leader",
-                "u",
-                "t"
-            ],
-            "commands": [
-                "timeline.focus",
-            ]
-        },
-        //E
-        {
-            "before": [
-                "leader",
-                "e",
-            ],
-            "commands": [
-                "workbench.files.action.focusFilesExplorer"
-            ]
-        },
-        // F
-        {
-            "before": [
-                "leader",
-                "f",
-                "r"
-            ],
-            "commands": [
-                "workbench.action.quickOpen"
-            ]
-        },
-        {
-            "before": [
-                "leader",
-                "f",
-                "f"
-            ],
-            "commands": [
-                "workbench.action.quickOpen"
-            ]
-        },
-        {
-            "before": [
-                "leader",
-                "f",
-                "p"
-            ],
-            "commands": [
-                "projectManager.listGitProjects#sideBarGit"
-            ]
-        },
-        {
-            "before": [
-                "leader",
-                "f",
-                "w"
-            ],
-            "commands": [
-                "workbench.action.findInFiles"
-            ]
-        },
-        // G
-        {
-            "before": [
-                "leader",
-                "g",
-                "r"
-            ],
-            "commands": [
-                "git.revertSelectedRanges"
-            ]
-        },
-        {
-            "before": [
-                "leader",
-                "g",
-                "g"
-            ],
-            "commands": [
-                "workbench.view.scm"
-            ]
-        },
-        // T
-        {
-            "before": [
-                "leader",
-                "t"
-            ],
-            "commands": [
-                "workbench.action.terminal.new"
-            ]
-        },
-        // splits
-        {
-            "before": [
-                "leader",
-                "v"
-            ],
-            "commands": [
-                ":vsplit"
-            ]
-        },
-        {
-            "before": [
-                "leader",
-                "sh"
-            ],
-            "commands": [
-                ":split"
-            ]
-        },
-        // MOVE SPLITS
-        {
-            "before": [
-                "<C-h>"
-            ],
-            "commands": [
-                "workbench.action.focusLeftGroup"
-            ]
-        },
-        {
-            "before": [
-                "<C-j>"
-            ],
-            "commands": [
-                "workbench.action.focusBelowGroup"
-            ]
-        },
-        {
-            "before": [
-                "<C-k>"
-            ],
-            "commands": [
-                "workbench.action.focusAboveGroup"
-            ]
-        },
-        {
-            "before": [
-                "<C-l>"
-            ],
-            "commands": [
-                "workbench.action.focusRightGroup"
-            ]
-        },
-        // General
-        {
-            "before": [
-                "leader",
-                "w"
-            ],
-            "commands": [
-                "workbench.action.files.saveWithoutFormatting"
-            ]
-        },
-        {
-            "before": [
-                "leader",
-                "q"
-            ],
-            "commands": [
-                ":q!"
-            ]
-        },
-        {
-            "before": [
-                "<C-a>"
-            ],
-            "commands": [
-                "editor.action.selectAll"
-            ]
-        },
-        {
-            "before": [
-                "leader",
-                "x"
-            ],
-            "commands": [
-                ":x!"
-            ]
-        },
-        {
-            "before": [
-                "[",
-                "d"
-            ],
-            "commands": [
-                "editor.action.marker.prev"
-            ]
-        },
-        {
-            "before": [
-                "]",
-                "d"
-            ],
-            "commands": [
-                "editor.action.marker.next"
-            ]
-        },
-        {
-            "before": [
-                "<leader>",
-                "l",
-                "a"
-            ],
-            "commands": [
-                "editor.action.quickFix"
-            ]
-        },
-        {
-            "before": [
-                "leader",
-                "l",
-                "f"
-            ],
-            "commands": [
-                "editor.action.formatDocument"
-            ]
-        },
-        {
-            "before": [
-                "<S-k>"
-            ],
-            "commands": [
-                "editor.action.showDefinitionPreviewHover"
-            ]
-        },
         {
             "before": [
                 "leader",
@@ -286,49 +29,15 @@
             ]
         }
     ],
-    "vim.visualModeKeyBindings": [
-        // Stay in visual mode while indenting
-        {
-            "before": [
-                "<"
-            ],
-            "commands": [
-                "editor.action.outdentLines"
-            ]
-        },
-        {
-            "before": [
-                ">"
-            ],
-            "commands": [
-                "editor.action.indentLines"
-            ]
-        },
-        // Move selected lines while staying in visual mode
-        {
-            "before": [
-                "J"
-            ],
-            "commands": [
-                "editor.action.moveLinesDownAction"
-            ]
-        },
-        {
-            "before": [
-                "K"
-            ],
-            "commands": [
-                "editor.action.moveLinesUpAction"
-            ]
-        },
-        // toggle comment selection
+    "vim.visualModeKeyBindingsNonRecursive": [
         {
             "before": [
                 "leader",
                 "/"
             ],
             "commands": [
-                "editor.action.commentLine"
+                "editor.action.commentLine",
+                "editor.editorTextFocus"
             ]
         }
     ],
@@ -366,12 +75,23 @@
             ]
         },
     ],
-    "[typescriptreact]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "terminal.integrated.profiles.osx": {
+        "tmux-shell": {
+            "path": "tmux",
+            "args": [
+                "new-session",
+                "-A",
+                "-s",
+                "${workspaceFolderBasename}"
+            ]
+        }
     },
-    "go.toolsManagement.autoUpdate": true,
+    "terminal.integrated.defaultProfile.osx": "tmux-shell",
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
     "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+        "editor.defaultFormatter": "vscode.typescript-language-features"
     },
     "[jsonc]": {
         "editor.defaultFormatter": "vscode.json-language-features"
@@ -381,7 +101,6 @@
         "/Users/iliutaadrian/Sites"
     ],
     "codeium.enableExplainProblem": false,
-    "codeium.enableInComments": false,
     "codeium.enableCodeLens": false,
     "rubocop.mode": "enableUnconditionally",
     "editor.wordWrap": "on",
@@ -407,8 +126,26 @@
         ".chrome",
         "db"
     ],
-    "rubocop.lintMode": true,
-    "rubocop.layoutMode": true,
     "window.commandCenter": false,
-    "workbench.layoutControl.enabled": false
+    "workbench.layoutControl.enabled": false,
+    "editor.semanticTokenColorCustomizations": {
+        "enabled": true, // enable for all themes
+        "[Default Dark+]": {
+            "enabled": true // enable for a particular theme
+        }
+    },
+    "workbench.colorTheme": "Ruby Steel Blue",
+    "gitlens.currentLine.enabled": false,
+    "gitlens.currentLine.pullRequests.enabled": false,
+    "workbench.editor.limit.value": 4,
+    "workbench.editor.limit.enabled": true,
+    "workbench.editor.limit.excludeDirty": true,
+    "vim.foldfix": true,
+    "editor.multiCursorModifier": "ctrlCmd",
+    "codeium.enableSearch": true,
+    "jump.primaryCharset": "fsdghjklweruioncv",
+    "ruby.rubocop.onSave": false,
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "workbench.startupEditor": "none",
 }
