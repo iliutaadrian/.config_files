@@ -18,8 +18,11 @@ keymap.set("n", ";", ":<C-f>i", { desc = "Command line" })
 keymap.set("n", "j", "gj", { desc = "Move down in insert mode" })
 keymap.set("n", "k", "gk", { desc = "Move up in insert mode" })
 
+-- new shorcut for move to end/start of line
 keymap.set("n", "L", "$", { desc = "Move to end of line" })
 keymap.set("n", "H", "_", { desc = "Move to start of line" })
+keymap.set("n", "dl", "d$", { desc = "Delete to end of line" })
+keymap.set("n", "dh", "d0", { desc = "Delete to start of line" })
 
 -- clear search highlights
 keymap.set("n", "<ESC>", ":nohl<CR><ESC>", { desc = "Clear search highlights" })
