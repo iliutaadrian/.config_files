@@ -153,6 +153,7 @@ alias x="exit 0"
 alias lg="lazygit"
 
 alias nz="cd && lvim .zshrc"
+alias nt="cd && lvim .tmux.conf"
 alias src="echo 'source ~/.zshrc' && source ~/.zshrc"
 
 alias python="python3"
@@ -162,7 +163,18 @@ alias pip="pip3"
 set -o vi
 KEYTIMEOUT=1
 
+bindkey -M menuselect 'h' vi-backward-char
+bindkey -M menuselect 'k' vi-up-line-or-history
+bindkey -M menuselect 'l' vi-forward-char
+bindkey -M menuselect 'j' vi-down-line-or-history
 
+bindkey '^P' up-history
+bindkey '^N' down-history
+bindkey '^?' backward-delete-char
+bindkey '^h' backward-delete-char
+bindkey '^w' backward-kill-word
+bindkey '^a' beginning-of-line
+bindkey '^e' end-of-line
 
 # GG
 eval "$(direnv hook zsh)"

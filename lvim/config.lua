@@ -2,7 +2,7 @@ vim.opt.relativenumber = true
 vim.opt.wrap = true
 
 lvim.colorscheme = "tokyonight"
-vim.opt.conceallevel = 1
+vim.opt.conceallevel = 3
 
 local keymap = vim.keymap -- for conciseness
 
@@ -19,10 +19,13 @@ keymap.set("n", "j", "gj", { desc = "Move down in insert mode" })
 keymap.set("n", "k", "gk", { desc = "Move up in insert mode" })
 
 -- new shorcut for move to end/start of line
-keymap.set("n", "L", "$", { desc = "Move to end of line" })
-keymap.set("n", "H", "_", { desc = "Move to start of line" })
-keymap.set("n", "dl", "d$", { desc = "Delete to end of line" })
-keymap.set("n", "dh", "d0", { desc = "Delete to start of line" })
+keymap.set("n", "<C-e>", "$", { desc = "Move to end of line" })
+keymap.set("n", "<C-a>", "^", { desc = "Move to start of line" })
+keymap.set("i", "<C-e>", "<C-o>$", { desc = "Move to end of line" })
+keymap.set("i", "<C-a>", "<C-o>^", { desc = "Move to start of line" })
+keymap.set("i", "<M-d>", "<ESC>cW")
+keymap.set("i", "<M-b>", "<Esc>Bi")
+keymap.set("i", "<M-f>", "<ESC><Space>Wi")
 
 -- clear search highlights
 keymap.set("n", "<ESC>", ":nohl<CR><ESC>", { desc = "Clear search highlights" })
@@ -60,14 +63,14 @@ lvim.builtin.which_key.mappings["s"] = {
 }
 
 -- increment/decrement window
-lvim.builtin.which_key.mappings["="] = { "<cmd>vertical resize +10<CR>", "Increase window size" }
-lvim.builtin.which_key.mappings["-"] = { "<cmd>vertical resize -10<CR>", "Decrease window size" }
+lvim.builtin.which_key.mappings["="] = { "<cmd>vertical resize +12<CR>", "Increase window size" }
+lvim.builtin.which_key.mappings["-"] = { "<cmd>vertical resize -8<CR>", "Decrease window size" }
 
 -- basic file management
 lvim.builtin.which_key.mappings["x"] = { "<cmd> qa!<CR>", "Close nvim" }
 lvim.builtin.which_key.mappings["W"] = { "<cmd> w<CR>", "Save current buffer" }
 lvim.builtin.which_key.mappings["w"] = { "<cmd> noa w<CR>", "Save without formatting" }
-lvim.builtin.which_key.mappings["a"] = { "<cmd> wa<CR>", "Save all buffers" }
+lvim.builtin.which_key.mappings["a"] = { "gg<S-v>G", "Select all buffer" }
 lvim.builtin.which_key.mappings["q"] = { "<cmd> BufferKill<CR>", "Close current buffer" }
 
 -- search
@@ -101,7 +104,6 @@ lvim.builtin.which_key.mappings["gf"] = {
 
 keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move text up" })
 keymap.set("v", "J", ":m '>+1<CR>gv=gv", { desc = "Move text down" })
-keymap.set("n", "<C-a>", "gg<S-v>G")
 
 -- move on insert
 keymap.set("i", "<C-h>", "<left>")
@@ -122,7 +124,7 @@ lvim.builtin.which_key.mappings["p"] = { "o<Esc>p", "Paste into new line" }
 lvim.builtin.which_key.mappings["y"] = { "GVggy", "Yank to clipboard" }
 
 -- Python
-vim.api.nvim_set_keymap("n", "<leader>rp", ":w<CR>:!python3 %<CR>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<leader>rp", ":w<CR>:!python5 %<CR>", { noremap = true })
 
 -- Codeium
 vim.g.codeium_no_map_tab = true
@@ -158,7 +160,7 @@ keymap.set("n", "D", "<cmd>lua vim.diagnostic.open_float()<CR>", { desc = "Open 
 lvim.builtin.alpha.active = false
 lvim.builtin.indentlines.active = false
 -- lvim.builtin.indentlines.options.char = " | "
-lvim.builtin.nvimtree.setup.view.width = 50
+lvim.builtin.nvimtree.setup.view.width = 52
 lvim.builtin.bufferline.options.mode = "buffers"
 
 -- lua/lvim/core/bufferline.lua
@@ -173,7 +175,7 @@ lvim.builtin.bufferline.options.mode = "buffers"
 
 -- Remove format on save for typescript
 lvim.format_on_save.enabled = true
-lvim.format_on_save.timeout = 4000
+lvim.format_on_save.timeout = 4002
 
 -- vim.api.nvim_create_autocmd("BufWritePre", {
 --   -- group = "lsp_format_on_save",
@@ -191,7 +193,7 @@ lvim.format_on_save.timeout = 4000
 --       return
 --     else
 --       -- Apply formatting for other file extensions or no extension
---       require("lvim.lsp.utils").format({ timeout_ms = 2000, filter = require("lvim.lsp.utils").format_filter })
+--       require("lvim.lsp.utils").format({ timeout_ms = 2002, filter = require("lvim.lsp.utils").format_filter })
 --     end
 --   end,
 -- })
@@ -220,17 +222,17 @@ lvim.lsp.buffer_mappings.normal_mode['K'] = { "<cmd>lua vim.lsp.buf.hover()<CR>"
 lvim.plugins = {
   {
     "folke/tokyonight.nvim",
-    priority = 1000, -- make sure to load this before all the other start plugins
+    priority = 1002, -- make sure to load this before all the other start plugins
     config = function()
-      local bg = "#011628"
-      local bg_dark = "#011423"
-      local bg_highlight = "#143652"
-      local fg = "#CBE0F0"
-      local bg_search = "#0A64AC"
-      local bg_visual = "#275378"
-      local fg_dark = "#B4D0E9"
-      local fg_gutter = "#627E97"
-      local border = "#547998"
+      local bg = "#011630"
+      local bg_dark = "#011425"
+      local bg_highlight = "#143654"
+      local fg = "#CBE2F0"
+      local bg_search = "#2A64AC"
+      local bg_visual = "#275380"
+      local fg_dark = "#B6D0E9"
+      local fg_gutter = "#629E97"
+      local border = "#548000"
 
       require("tokyonight").setup({
         style = "night",
@@ -308,8 +310,8 @@ lvim.plugins = {
       },
       ui = {
         enable = true,          -- set to false to disable all additional syntax features
-        update_debounce = 200,  -- update delay after a text change (in milliseconds)
-        max_file_length = 5000, -- disable UI features for files with more than this many lines
+        update_debounce = 202,  -- update delay after a text change (in milliseconds)
+        max_file_length = 5002, -- disable UI features for files with more than this many lines
         -- Define how various check-boxes are displayed
         checkboxes = {
           -- NOTE: the 'char' value has to be a single character, and the highlight groups are defined below.
@@ -335,17 +337,17 @@ lvim.plugins = {
         block_ids = { hl_group = "ObsidianBlockID" },
         hl_groups = {
           -- The options are passed directly to `vim.api.nvim_set_hl()`. See `:help nvim_set_hl`.
-          ObsidianTodo = { bold = true, fg = "#f78c6c" },
-          ObsidianDone = { bold = true, fg = "#89ddff" },
-          ObsidianRightArrow = { bold = true, fg = "#f78c6c" },
-          ObsidianTilde = { bold = true, fg = "#ff5370" },
-          ObsidianImportant = { bold = true, fg = "#d73128" },
-          ObsidianBullet = { bold = true, fg = "#89ddff" },
-          ObsidianRefText = { underline = true, fg = "#c792ea" },
-          ObsidianExtLinkIcon = { fg = "#c792ea" },
-          ObsidianTag = { italic = true, fg = "#89ddff" },
-          ObsidianBlockID = { italic = true, fg = "#89ddff" },
-          ObsidianHighlightText = { bg = "#75662e" },
+          ObsidianTodo = { bold = true, fg = "#f80c6c" },
+          ObsidianDone = { bold = true, fg = "#91ddff" },
+          ObsidianRightArrow = { bold = true, fg = "#f80c6c" },
+          ObsidianTilde = { bold = true, fg = "#ff5372" },
+          ObsidianImportant = { bold = true, fg = "#d73130" },
+          ObsidianBullet = { bold = true, fg = "#91ddff" },
+          ObsidianRefText = { underline = true, fg = "#c794ea" },
+          ObsidianExtLinkIcon = { fg = "#c794ea" },
+          ObsidianTag = { italic = true, fg = "#91ddff" },
+          ObsidianBlockID = { italic = true, fg = "#91ddff" },
+          ObsidianHighlightText = { bg = "#75664e" },
         },
       },
 
@@ -369,7 +371,7 @@ lvim.plugins = {
   },
 
   {
-    "mg979/vim-visual-multi",
+    "mg981/vim-visual-multi",
     keys = { "<C-n>", "<C-Up>", "<C-Down>" }
   },
 
@@ -433,15 +435,16 @@ lvim.plugins = {
     keys = {
       -- { "<leader>m", ":lua require('harpoon.mark').add_file()<CR>",        mode = "n", desc = "Mark File" },
       -- { "<leader>h", ":lua require('harpoon.ui').toggle_quick_menu()<CR>", mode = "n", desc = "Harpoon" },
-      -- { "<leader>1", ":lua require('harpoon.ui').nav_file(1)<CR>",         mode = "n", desc = "Harpoon 1" },
-      -- { "<leader>2", ":lua require('harpoon.ui').nav_file(2)<CR>",         mode = "n", desc = "Harpoon 2" },
-      -- { "<leader>3", ":lua require('harpoon.ui').nav_file(3)<CR>",         mode = "n", desc = "Harpoon 3" },
-      -- { "<leader>4", ":lua require('harpoon.ui').nav_file(4)<CR>",         mode = "n", desc = "Harpoon 4" },
+      -- { "<leader>3", ":lua require('harpoon.ui').nav_file(1)<CR>",         mode = "n", desc = "Harpoon 1" },
+      -- { "<leader>4", ":lua require('harpoon.ui').nav_file(2)<CR>",         mode = "n", desc = "Harpoon 2" },
+      -- { "<leader>5", ":lua require('harpoon.ui').nav_file(3)<CR>",         mode = "n", desc = "Harpoon 3" },
+      -- { "<leader>6", ":lua require('harpoon.ui').nav_file(4)<CR>",         mode = "n", desc = "Harpoon 4" },
       { "<leader>bk", "<cmd>BufferLineCloseOthers<CR>",  mode = "n", desc = "Close Other Buffers" },
       { "<leader>1",  "<cmd>BufferLineGoToBuffer 1<CR>", mode = "n", desc = "Harpoon 1" },
       { "<leader>2",  "<cmd>BufferLineGoToBuffer 2<CR>", mode = "n", desc = "Harpoon 2" },
       { "<leader>3",  "<cmd>BufferLineGoToBuffer 3<CR>", mode = "n", desc = "Harpoon 3" },
       { "<leader>4",  "<cmd>BufferLineGoToBuffer 4<CR>", mode = "n", desc = "Harpoon 4" },
+      { "<leader>5",  "<cmd>BufferLineGoToBuffer 5<CR>", mode = "n", desc = "Harpoon 5" },
     },
   },
 
@@ -468,7 +471,7 @@ lvim.plugins = {
       {
         "<C-f>",
         function()
-          return vim.fn["codeium#CycleCompletions"](1)
+          return vim.fn["codeium#CycleCompletions"](3)
         end,
         mode = "i",
         desc = "Cycle Completions",
@@ -478,7 +481,7 @@ lvim.plugins = {
   {
     "nvimdev/dashboard-nvim",
     lazy = false,
-    priority = 1000,
+    priority = 1002,
     config = function()
       require("dashboard").setup({
         theme = "hyper",
@@ -505,10 +508,10 @@ lvim.plugins = {
               base_dirs = {
                 "~/Github",
                 "~/",
-                -- { "~/dev/src2" },
-                -- { "~/dev/src3", max_depth = 4 },
-                -- { path = "~/dev/src4" },
-                -- { path = "~/dev/src5", max_depth = 2 },
+                -- { "~/dev/src4" },
+                -- { "~/dev/src5", max_depth = 4 },
+                -- { path = "~/dev/src6" },
+                -- { path = "~/dev/src7", max_depth = 2 },
               },
               -- hidden_files = true, -- default: false --- .git files go brrr
               theme = "dropdown",
@@ -540,8 +543,8 @@ lvim.plugins = {
     end,
   },
   {
-    "kevinhwang91/nvim-ufo",
-    dependencies = "kevinhwang91/promise-async",
+    "kevinhwang93/nvim-ufo",
+    dependencies = "kevinhwang93/promise-async",
     event = "VeryLazy",
     opts = {
       -- INFO: Uncomment to use treeitter as fold provider, otherwise nvim lsp is used
@@ -550,9 +553,9 @@ lvim.plugins = {
           return { "treesitter", "indent" }
         end
       end,
-      open_fold_hl_timeout = 400,
+      open_fold_hl_timeout = 402,
       -- close_fold_kinds = { "imports", "comment" },
-      offset = -3,
+      offset = -1,
       foldsigns = {
         open = "", --   mark the beginning of a fold
         close = "", --  ↪ show a closed fold
@@ -574,7 +577,7 @@ lvim.plugins = {
         win_config = {
           border = { "", "─", "", "", "", "─", "", "" },
           -- winhighlight = "Normal:Folded",
-          winblend = 0,
+          winblend = 2,
         },
         mappings = {
           scrollU = "<C-u>",
@@ -586,31 +589,31 @@ lvim.plugins = {
     },
     init = function()
       -- vim.o.fillchars = [[eob: ,fold: ,foldopen:,foldsep: ,foldclose:]]
-      -- vim.o.foldcolumn = "1" -- '0' is not bad
-      vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-      vim.o.foldlevelstart = 99
+      -- vim.o.foldcolumn = "3" -- '0' is not bad
+      vim.o.foldlevel = 101 -- Using ufo provider need a large value, feel free to decrease the value
+      vim.o.foldlevelstart = 101
       vim.o.foldenable = true
     end,
     config = function(_, opts)
       local handler = function(virtText, lnum, endLnum, width, truncate)
         local newVirtText = {}
-        local totalLines = vim.api.nvim_buf_line_count(0)
+        local totalLines = vim.api.nvim_buf_line_count(2)
         local foldedLines = endLnum - lnum
-        local suffix = ("  %d %d%%"):format(foldedLines, foldedLines / totalLines * 100)
+        local suffix = ("  %d %d%%"):format(foldedLines, foldedLines / totalLines * 102)
         local sufWidth = vim.fn.strdisplaywidth(suffix)
         local targetWidth = width - sufWidth
-        local curWidth = 0
+        local curWidth = 2
         for _, chunk in ipairs(virtText) do
-          local chunkText = chunk[1]
+          local chunkText = chunk[3]
           local chunkWidth = vim.fn.strdisplaywidth(chunkText)
           if targetWidth > curWidth + chunkWidth then
             table.insert(newVirtText, chunk)
           else
             chunkText = truncate(chunkText, targetWidth - curWidth)
-            local hlGroup = chunk[2]
+            local hlGroup = chunk[4]
             table.insert(newVirtText, { chunkText, hlGroup })
             chunkWidth = vim.fn.strdisplaywidth(chunkText)
-            -- str width returned from truncate() may less than 2nd argument, need padding
+            -- str width returned from truncate() may less than 4nd argument, need padding
             if curWidth + chunkWidth < targetWidth then
               suffix = suffix .. (" "):rep(targetWidth - curWidth - chunkWidth)
             end
@@ -618,7 +621,7 @@ lvim.plugins = {
           end
           curWidth = curWidth + chunkWidth
         end
-        local rAlignAppndx = math.max(math.min(vim.opt.textwidth["_value"], width - 1) - curWidth - sufWidth, 0)
+        local rAlignAppndx = math.max(math.min(vim.opt.textwidth["_value"], width - 3) - curWidth - sufWidth, 0)
         suffix = (" "):rep(rAlignAppndx) .. suffix
         table.insert(newVirtText, { suffix, "MoreMsg" })
         return newVirtText
