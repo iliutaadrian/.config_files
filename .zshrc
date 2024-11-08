@@ -85,7 +85,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 
 plugins=(git zapmarks)
 
-bindkey '^B' zapmarks
+bindkey '^Z' zapmarks
 
 source $ZSH/oh-my-zsh.sh
 
@@ -159,22 +159,29 @@ alias src="echo 'source ~/.zshrc' && source ~/.zshrc"
 alias python="python3"
 alias pip="pip3"
 
+alias query='python $HOME/.tinyquery/app.py'
+
+alias collect ='python $HOME/Sites/collect_files.sh'
+
 # Enable vim mode
 set -o vi
 KEYTIMEOUT=1
 
-bindkey -M menuselect 'h' vi-backward-char
-bindkey -M menuselect 'k' vi-up-line-or-history
-bindkey -M menuselect 'l' vi-forward-char
-bindkey -M menuselect 'j' vi-down-line-or-history
-
+# History navigation
 bindkey '^P' up-history
 bindkey '^N' down-history
-bindkey '^?' backward-delete-char
-bindkey '^h' backward-delete-char
+
+# Word manipulation
 bindkey '^w' backward-kill-word
+
+# Word navigation
+bindkey '^f' forward-word
+bindkey '^b' backward-word
+
+# Line navigation
 bindkey '^a' beginning-of-line
 bindkey '^e' end-of-line
+
 
 # GG
 eval "$(direnv hook zsh)"

@@ -123,8 +123,8 @@ keymap.set({ "n", "v" }, "p", "P", { desc = "Paste without overwriting register"
 lvim.builtin.which_key.mappings["p"] = { "o<Esc>p", "Paste into new line" }
 lvim.builtin.which_key.mappings["y"] = { "GVggy", "Yank to clipboard" }
 
--- Python
-vim.api.nvim_set_keymap("n", "<leader>rp", ":w<CR>:!python5 %<CR>", { noremap = true })
+vim.o.makeprg='./build.sh'
+lvim.builtin.which_key.mappings["m"] = { ":make<CR>", "Make" }
 
 -- Codeium
 vim.g.codeium_no_map_tab = true

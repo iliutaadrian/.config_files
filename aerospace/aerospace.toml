@@ -149,8 +149,9 @@ alt-shift-semicolon = 'mode service'
 
 alt-shift-r = 'mode resize'
 
-alt-shift-minus = 'resize smart -50'
-alt-shift-equal = 'resize smart +50'
+alt-shift-minus = 'resize smart -300'
+alt-shift-equal = 'resize smart +300'
+alt-shift-b = 'balance-sizes'
 
 [mode.resize.binding]
 l = 'resize width -50'
@@ -160,8 +161,8 @@ k = 'resize height -50'
 b = 'balance-sizes'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#resize
-minus = 'resize smart -50'
-equal = 'resize smart +50'
+minus = 'resize smart -300'
+equal = 'resize smart +300'
 
 enter = 'mode main'
 esc = 'mode main'
@@ -180,11 +181,43 @@ alt-shift-j = ['join-with down', 'mode main']
 alt-shift-k = ['join-with up', 'mode main']
 alt-shift-l = ['join-with right', 'mode main']
 
-# slack, finder
 [[on-window-detected]]
-if.app-id = 'com.slack.Slack'
+if.app-id = 'com.apple.finder'
 run = "move-node-to-workspace 1"
 
-# [[on-window-detected]]
-# if.app-id = 'com.google.Chrome'
-# run = "move-node-to-workspace B"
+[[on-window-detected]]
+if.app-id = 'com.apple.reminders'
+run = "move-node-to-workspace 1"
+
+[[on-window-detected]]
+if.app-id = 'com.apple.iCal'
+run = "move-node-to-workspace 1"
+
+[[on-window-detected]]
+if.app-id = 'md.obsidian'
+run = "move-node-to-workspace 2"
+
+[[on-window-detected]]
+if.app-id = 'com.brave.Browser'
+run = "move-node-to-workspace 3"
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.VSCode'
+run = "move-node-to-workspace 3"
+
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = "move-node-to-workspace 4"
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Safari'
+run = "move-node-to-workspace 4"
+
+[[on-window-detected]]
+if.app-id = 'us.zoom.xos'
+run = "move-node-to-workspace 4"
+
+[[on-window-detected]]
+if.app-id = 'com.readdle.SparkDesktop'
+run = "move-node-to-workspace 5"
+
