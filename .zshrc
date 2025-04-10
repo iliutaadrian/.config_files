@@ -156,12 +156,12 @@ alias nz="cd && lvim .zshrc"
 alias nt="cd && lvim .tmux.conf"
 alias src="echo 'source ~/.zshrc' && source ~/.zshrc"
 
-alias python="python3"
-alias pip="pip3"
+# alias python="python3"
+# alias pip="pip3"
 
 alias query='python $HOME/.tinyquery/app.py'
 
-alias collect ='python $HOME/Sites/collect_files.sh'
+alias collect='$HOME/Sites/collect_files.sh'
 
 # Enable vim mode
 set -o vi
@@ -182,6 +182,9 @@ bindkey '^b' backward-word
 bindkey '^a' beginning-of-line
 bindkey '^e' end-of-line
 
+# Char navigation
+bindkey '^l' forward-char
+bindkey '^h' backward-char
 
 # GG
 eval "$(direnv hook zsh)"
@@ -247,6 +250,12 @@ export PATH="/usr/local/opt/postgresql@12/bin:$PATH"
 export PATH="/Users/iliutaadrian/.local/bin:$PATH"
 
 export PATH="/Users/iliutaadrian/Library/Python/3.12/bin:$PATH"
+
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/iliutaadrian/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
 
 # zprof
 
