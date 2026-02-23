@@ -24,10 +24,28 @@ command -v direnv &> /dev/null && eval "$(direnv hook zsh)"
 command -v zoxide &> /dev/null && eval "$(zoxide init zsh)"
 
 # fzf
-command -v fzf &> /dev/null && eval "$(fzf --zsh)"
+if command -v fzf &> /dev/null; then
+  if fzf --zsh > /dev/null 2>&1; then
+    eval "$(fzf --zsh)"
+  else
+    # older fzf (pre-0.48) — source shell integration files directly
+    for _fzf in \
+      /usr/share/doc/fzf/examples/key-bindings.zsh \
+      /usr/share/fzf/key-bindings.zsh; do
+      [[ -f "$_fzf" ]] && source "$_fzf" && break
+    done
+    unset _fzf
+  fi
+fi
 
 # Autosuggestions (history-based inline suggestions, → to accept)
-source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+for _zas in \
+  /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
+  /usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh \
+  /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh; do
+  [[ -f "$_zas" ]] && source "$_zas" && break
+done
+unset _zas
 
 # Starship prompt
 command -v starship &> /dev/null && eval "$(starship init zsh)"

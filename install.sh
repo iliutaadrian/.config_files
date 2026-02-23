@@ -1,13 +1,36 @@
 #!/bin/bash
+set -e
 
-ln -s ~/config/.tmux.conf ~/.tmux.conf
-ln -s ~/config/starship.toml ~/.config/starship.toml
-ln -s ~/config/.zshrc ~/.zshrc
-ln -s ~/config/.inputrc ~/.inputrc
-ln -s ~/config/zapmarks.json ~/.config/zapmarks.json
+OS="$(uname -s)"
+echo "Setting up config for $OS..."
 
-ln -s ~/config/nvim ~/.config/nvim
-ln -s ~/config/lvim ~/.config/lvim
-ln -s ~/config/aerospace ~/.config/aerospace
+mkdir -p ~/.config
 
-echo "Symlink creation complete!"
+# Helper: safe symlink (backs up existing dir/file, skips if already correct)
+lns() {
+  local src="$1" dst="$2"
+  if [[ -L "$dst" && "$(readlink "$dst")" == "$src" ]]; then
+    return  # already correct
+  fi
+  if [[ -e "$dst" && ! -L "$dst" ]]; then
+    mv "$dst" "${dst}.bak.$(date +%s)"
+    echo "Backed up $dst"
+  fi
+  ln -sf "$src" "$dst"
+  echo "Linked $dst → $src"
+}
+
+# .zshrc entry point (just sources zsh/rc)
+if [[ ! -f ~/config/.zshrc ]]; then
+  echo 'source "$HOME/config/zsh/rc"' > ~/config/.zshrc
+fi
+
+lns ~/config/.zshrc         ~/.zshrc
+lns ~/config/starship.toml  ~/.config/starship.toml
+lns ~/config/nvim           ~/.config/nvim
+
+if [[ "$OS" == "Darwin" ]]; then
+  lns ~/config/aerospace ~/.config/aerospace
+fi
+
+echo "Done!"

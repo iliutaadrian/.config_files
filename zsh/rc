@@ -3,3 +3,6 @@ source "$HOME/config/zsh/shell"
 source "$HOME/config/zsh/aliases"
 source "$HOME/config/zsh/functions"
 source "$HOME/config/zsh/init"
+
+# Machine-local overrides (not tracked by git)
+[[ -f "$HOME/config/zsh/local" ]] && source "$HOME/config/zsh/local"
