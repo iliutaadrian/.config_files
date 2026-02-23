@@ -27,6 +27,9 @@ vim.keymap.set("i", "<C-l>", "<right>", { desc = "Move right" })
 vim.keymap.set("i", "<C-j>", "<down>",  { desc = "Move down" })
 vim.keymap.set("i", "<C-k>", "<up>",    { desc = "Move up" })
 
+-- Select whole file
+vim.keymap.set("n", "<leader>a", "ggVG", { desc = "Select all" })
+
 -- Reload current file
 vim.keymap.set("n", "<leader>rr", "<cmd>e!<CR>", { desc = "Reload file" })
 
@@ -36,3 +39,10 @@ vim.keymap.set("n", "U", "<C-r>", { desc = "Redo" })
 -- Increment/decrement
 vim.keymap.set("n", "+", "<C-a>", { desc = "Increment number" })
 vim.keymap.set("n", "-", "<C-x>", { desc = "Decrement number" })
+
+-- Buffer navigation by index (S-1 through S-5)
+vim.keymap.set("n", "!", "<cmd>BufferLineGoToBuffer 1<cr>", { desc = "Go to buffer 1" })
+vim.keymap.set("n", "@", "<cmd>BufferLineGoToBuffer 2<cr>", { desc = "Go to buffer 2" })
+vim.keymap.set("n", "#", "<cmd>BufferLineGoToBuffer 3<cr>", { desc = "Go to buffer 3" })
+vim.keymap.set("n", "$", "<cmd>BufferLineGoToBuffer 4<cr>", { desc = "Go to buffer 4" })
+vim.keymap.set("n", "%", "<cmd>BufferLineGoToBuffer 5<cr>", { desc = "Go to buffer 5" })

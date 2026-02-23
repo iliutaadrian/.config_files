@@ -1,4 +1,4 @@
-export EDITOR='lvim'
+export EDITOR='nvim'
 export STARSHIP_CONFIG="$HOME/config/starship.toml"
 export SUDO_EDITOR="$EDITOR"
 export BAT_THEME=ansi

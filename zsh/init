@@ -3,13 +3,19 @@ if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
   . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
 fi
 
-# Docker completions (must come before compinit)
-if [ -d "$HOME/.docker/completions" ]; then
-  fpath=($HOME/.docker/completions $fpath)
-fi
-
 # Completions
-autoload -Uz compinit && compinit
+autoload -Uz compinit
+
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'     # case-insensitive
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"  # colored output
+zstyle ':completion:*' menu select                        # TAB cycles, Shift+TAB reverses
+zstyle ':completion:*' special-dirs false                 # hide . and ..
+
+compinit
+
+# bash-completion (additional tool completions)
+autoload -Uz bashcompinit && bashcompinit
+[[ -r "/opt/homebrew/etc/profile.d/bash_completion.sh" ]] && source "/opt/homebrew/etc/profile.d/bash_completion.sh"
 
 # direnv
 command -v direnv &> /dev/null && eval "$(direnv hook zsh)"
@@ -19,6 +25,9 @@ command -v zoxide &> /dev/null && eval "$(zoxide init zsh)"
 
 # fzf
 command -v fzf &> /dev/null && eval "$(fzf --zsh)"
+
+# Autosuggestions (history-based inline suggestions, → to accept)
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 # Starship prompt
 command -v starship &> /dev/null && eval "$(starship init zsh)"

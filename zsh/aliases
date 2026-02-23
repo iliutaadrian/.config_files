@@ -33,11 +33,6 @@ n() { if [ "$#" -eq 0 ]; then command nvim . ; else command nvim "$@"; fi; }
 # Open file in existing nvim instance (usage: nv <filepath>)
 nv() { nvim --server ~/.cache/nvim/server.pipe --remote "$@" 2>/dev/null || nvim "$@"; }
 
-# Git
-alias g='git'
-alias gcm='git commit -m'
-alias gcam='git commit -a -m'
-alias gcad='git commit -a --amend'
 
 # Personal
 alias nz="cd && lvim ~/.zshrc"

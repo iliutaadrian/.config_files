@@ -1,12 +1,15 @@
 add_newline = true
 scan_timeout = 10
 
+format = "$directory$git_branch$git_status$line_break$character"
+
 # for performance profiling: uncomment and run `starship timings`
 # [custom]
 
 [character]
 success_symbol = "[❯](bold #00afff)"
 error_symbol = "[❯](bold red)"
+vicmd_symbol = "[❮](bold #5fd7ff)"
 
 [username]
 disabled = true
@@ -25,13 +28,24 @@ format = "[$branch]($style) "
 style = "#5fd7ff"
 
 [git_status]
+format = '([$all_status$ahead_behind]($style) )'
+ahead = "[⇡$count](#5fd7ff) "
+behind = "[⇣$count](#5fd7ff) "
+diverged = "[⇕⇡${ahead_count}⇣${behind_count}](#ff5f5f) "
+untracked = "[?$count](#767676) "
+stashed = "[≡$count](#767676) "
+modified = "[~$count](#d7af5f) "
+staged = "[+$count](#87d75f) "
+renamed = "[»$count](#87d75f) "
+deleted = "[✘$count](#ff5f5f) "
+conflicted = "[=$count](#ff5f5f) "
 style = "#767676"
 
 [cmd_duration]
 disabled = true
 
 [ruby]
-format = "[$version]($style) "
+disabled = true
 
 [docker_context]
 disabled = true
@@ -52,4 +66,7 @@ disabled = true
 disabled = true
 
 [lua]
+disabled = true
+
+[nix_shell]
 disabled = true

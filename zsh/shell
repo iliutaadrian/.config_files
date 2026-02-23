@@ -2,13 +2,26 @@
 setopt APPEND_HISTORY
 setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_REDUCE_BLANKS
+setopt HIST_IGNORE_SPACE
 HISTSIZE=32768
 SAVEHIST=$HISTSIZE
 HISTFILE=~/.zsh_history
+HISTORY_IGNORE="(cd|cd *|ls|ls *|ll|lsa|rm -rf *|exit|x|c|cc)"
 
 # Vi mode
 set -o vi
 KEYTIMEOUT=1
+
+# Define before starship loads to prevent recursive wrapping
+# Also drives cursor shape: block=normal, beam=insert
+function zle-keymap-select() {
+  case $KEYMAP in
+    vicmd)      echo -ne '\e[2 q';;  # block
+    viins|main) echo -ne '\e[5 q';;  # beam
+  esac
+}
+zle -N zle-keymap-select
+echo -ne '\e[5 q'  # beam on startup
 
 # Keybindings
 bindkey '^P' up-history
