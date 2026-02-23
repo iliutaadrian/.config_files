@@ -1,13 +1,20 @@
 # File system
-alias ls='eza -lh --group-directories-first --icons=auto'
-alias lsa='ls -a'
-alias lt='eza --tree --level=2 --long --icons --git'
-alias lta='lt -a'
+if command -v eza &>/dev/null; then
+  alias ls='eza -lh --group-directories-first --icons=auto'
+  alias lsa='ls -a'
+  alias lt='eza --tree --level=2 --long --icons --git'
+  alias lta='lt -a'
+else
+  alias ls='ls -lh --color=auto'
+  alias lsa='ls -lah --color=auto'
+fi
 
-alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
-alias eff='$EDITOR $(ff)'
+if command -v fzf &>/dev/null; then
+  alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
+  alias eff='$EDITOR $(ff)'
+fi
 
-if command -v zoxide &> /dev/null; then
+if command -v zoxide &>/dev/null; then
   alias cd="zd"
   zd() {
     if [ $# -eq 0 ]; then
@@ -25,17 +32,22 @@ alias ..='cd ..'
 
 # Tools
 alias c='clear'
-alias cx='claude --dangerously-skip-permissions'
-alias lg='lazygit'
-alias t='tmux attach || tmux new -s Work'
 alias x='exit 0'
-n() { if [ "$#" -eq 0 ]; then command nvim . ; else command nvim "$@"; fi; }
-# Open file in existing nvim instance (usage: nv <filepath>)
-nv() { nvim --server ~/.cache/nvim/server.pipe --remote "$@" 2>/dev/null || nvim "$@"; }
+alias t='tmux attach || tmux new -s Work'
+command -v claude &>/dev/null    && alias cx='claude --dangerously-skip-permissions'
+command -v lazygit &>/dev/null   && alias lg='lazygit'
 
+if command -v nvim &>/dev/null; then
+  n() { if [ "$#" -eq 0 ]; then command nvim . ; else command nvim "$@"; fi; }
+  # Open file in existing nvim instance (usage: nv <filepath>)
+  nv() { nvim --server ~/.cache/nvim/server.pipe --remote "$@" 2>/dev/null || nvim "$@"; }
+fi
 
-# Personal
-alias nz="cd && lvim ~/.zshrc"
-alias nt="cd && lvim ~/.tmux.conf"
+# Personal (macOS only)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  alias nz="nvim ~/config/zsh/aliases"
+  alias nt="nvim ~/config/zsh/init"
+  alias query='python $HOME/.tinyquery/app.py'
+fi
+
 alias src="echo 'source ~/.zshrc' && source ~/.zshrc"
-alias query='python $HOME/.tinyquery/app.py'
