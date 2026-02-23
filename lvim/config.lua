@@ -375,11 +375,6 @@ lvim.plugins = {
 	},
 
 	{
-		"mg981/vim-visual-multi",
-		keys = { "<C-n>", "<C-Up>", "<C-Down>" },
-	},
-
-	{
 		"tpope/vim-surround",
 	},
 
@@ -547,8 +542,8 @@ lvim.plugins = {
 		end,
 	},
 	{
-		"kevinhwang93/nvim-ufo",
-		dependencies = "kevinhwang93/promise-async",
+		"kevinhwang91/nvim-ufo",
+		dependencies = "kevinhwang91/promise-async",
 		event = "VeryLazy",
 		opts = {
 			-- INFO: Uncomment to use treeitter as fold provider, otherwise nvim lsp is used

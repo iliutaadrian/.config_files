@@ -10,7 +10,7 @@ fi
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
-export PATH="$HOME/.local/share/nvim/mason/bin":$PATH
+# export PATH="$HOME/.local/share/nvim/mason/bin":$PATH
 
 
 # Path to your oh-my-zsh installation.
@@ -21,6 +21,14 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
+
+# Nix
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi
+# End Nix
+
+eval "$(direnv hook zsh)"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -186,9 +194,6 @@ bindkey '^e' end-of-line
 bindkey '^l' forward-char
 bindkey '^h' backward-char
 
-# GG
-eval "$(direnv hook zsh)"
-
 # Link Openssl 1.1 -------------------------------------------------------------
 # Add to path
 export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
@@ -201,41 +206,6 @@ export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
 
 # or pkg-config to find
 export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
-
-# RVM
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"
-
-# NVM
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "/usr/local/opt/nvm/nvm.sh" ] && \. "/usr/local/opt/nvm/nvm.sh" # This loads nvm
-# [ -s "/usr/local/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/usr/local/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
-# source ~/.nvm/nvm.sh
-# nvm use default --silent
-
-# Lazy load NVM
-export NVM_DIR="$HOME/.nvm"
-lazy_nvm() {
-  unset -f nvm node npm npx
-  [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" --no-use
-  nvm use default --silent
-}
-nvm() {
-  lazy_nvm
-  nvm "$@"
-}
-node() {
-  lazy_nvm
-  node "$@"
-}
-npm() {
-  lazy_nvm
-  npm "$@"
-}
-npx() {
-  lazy_nvm
-  npx "$@"
-}
 
 # Fix postgress error
 export PGGSSENCMODE="disable"
@@ -259,3 +229,8 @@ compinit
 
 # zprof
 
+# opencode
+export PATH=/Users/iliutaadrian/.opencode/bin:$PATH
+
+# Added by Antigravity
+export PATH="/Users/iliutaadrian/.antigravity/antigravity/bin:$PATH"
