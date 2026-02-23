@@ -1,0 +1,32 @@
+return {
+  {
+    "folke/snacks.nvim",
+    opts = {
+      dashboard = {
+        preset = {
+          header = "",
+        },
+      },
+      picker = {
+        hidden = true, -- include hidden files in all pickers
+        sources = {
+          files = {
+            hidden = true,
+            ignored = true,
+            exclude = { ".git", ".devenv" },
+          },
+          grep = {
+            hidden = true,
+            ignored = true,
+            exclude = { ".git", ".devenv" },
+          },
+          explorer = {
+            hidden = true,
+            ignored = true,
+            exclude = { ".git", ".devenv" },
+          },
+        },
+      },
+    },
+  },
+}
