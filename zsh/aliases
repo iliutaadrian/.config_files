@@ -1,0 +1,46 @@
+# File system
+alias ls='eza -lh --group-directories-first --icons=auto'
+alias lsa='ls -a'
+alias lt='eza --tree --level=2 --long --icons --git'
+alias lta='lt -a'
+
+alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
+alias eff='$EDITOR $(ff)'
+
+if command -v zoxide &> /dev/null; then
+  alias cd="zd"
+  zd() {
+    if [ $# -eq 0 ]; then
+      builtin cd ~ && return
+    elif [ -d "$1" ]; then
+      builtin cd "$1"
+    else
+      z "$@" && printf "\U000F17A9 " && pwd || echo "Error: Directory not found"
+    fi
+  }
+fi
+
+# Directories
+alias ..='cd ..'
+
+# Tools
+alias c='clear'
+alias cx='claude --dangerously-skip-permissions'
+alias lg='lazygit'
+alias t='tmux attach || tmux new -s Work'
+alias x='exit 0'
+n() { if [ "$#" -eq 0 ]; then command nvim . ; else command nvim "$@"; fi; }
+# Open file in existing nvim instance (usage: nv <filepath>)
+nv() { nvim --server ~/.cache/nvim/server.pipe --remote "$@" 2>/dev/null || nvim "$@"; }
+
+# Git
+alias g='git'
+alias gcm='git commit -m'
+alias gcam='git commit -a -m'
+alias gcad='git commit -a --amend'
+
+# Personal
+alias nz="cd && lvim ~/.zshrc"
+alias nt="cd && lvim ~/.tmux.conf"
+alias src="echo 'source ~/.zshrc' && source ~/.zshrc"
+alias query='python $HOME/.tinyquery/app.py'

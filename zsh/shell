@@ -1,0 +1,22 @@
+# History
+setopt APPEND_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_REDUCE_BLANKS
+HISTSIZE=32768
+SAVEHIST=$HISTSIZE
+HISTFILE=~/.zsh_history
+
+# Vi mode
+set -o vi
+KEYTIMEOUT=1
+
+# Keybindings
+bindkey '^P' up-history
+bindkey '^N' down-history
+bindkey '^w' backward-kill-word
+bindkey '^f' forward-word
+bindkey '^b' backward-word
+bindkey '^a' beginning-of-line
+bindkey '^e' end-of-line
+bindkey '^l' forward-char
+bindkey '^h' backward-char

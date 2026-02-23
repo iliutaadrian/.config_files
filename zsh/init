@@ -1,0 +1,30 @@
+# Nix
+if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+  . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+fi
+
+# Docker completions (must come before compinit)
+if [ -d "$HOME/.docker/completions" ]; then
+  fpath=($HOME/.docker/completions $fpath)
+fi
+
+# Completions
+autoload -Uz compinit && compinit
+
+# direnv
+command -v direnv &> /dev/null && eval "$(direnv hook zsh)"
+
+# zoxide
+command -v zoxide &> /dev/null && eval "$(zoxide init zsh)"
+
+# fzf
+command -v fzf &> /dev/null && eval "$(fzf --zsh)"
+
+# Starship prompt
+command -v starship &> /dev/null && eval "$(starship init zsh)"
+
+# zapmarks
+if [[ -f "$HOME/.oh-my-zsh/custom/plugins/zapmarks/zapmarks.plugin.zsh" ]]; then
+  source "$HOME/.oh-my-zsh/custom/plugins/zapmarks/zapmarks.plugin.zsh"
+  bindkey '^Z' zapmarks
+fi

@@ -1,0 +1,30 @@
+export EDITOR='lvim'
+export STARSHIP_CONFIG="$HOME/config/starship.toml"
+export SUDO_EDITOR="$EDITOR"
+export BAT_THEME=ansi
+
+# PATH
+export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
+export PATH="/Users/iliutaadrian/.cargo/bin:$PATH"
+export PATH="/usr/local/opt/postgresql@12/bin:$PATH"
+export PATH="/Users/iliutaadrian/.local/bin:$PATH"
+export PATH="/Users/iliutaadrian/Library/Python/3.12/bin:$PATH"
+export PATH="/Users/iliutaadrian/.opencode/bin:$PATH"
+export PATH="/Users/iliutaadrian/.antigravity/antigravity/bin:$PATH"
+
+# OpenSSL
+export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
+export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"
+export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
+
+# PostgreSQL
+export PGGSSENCMODE="disable"
+
+# macOS fork safety fix
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+
+export PYENV_ROOT="$HOME/.pyenv"
+
+# FZF
+export FZF_DEFAULT_OPTS="--preview 'bat --color=always {}' --height 40%"
+export FZF_COMPLETION_OPTS='--border --info=inline'
