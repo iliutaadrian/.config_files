@@ -34,7 +34,7 @@ italic = { family = "JetBrainsMono Nerd Font Mono", style = "Italic" }
 bold_italic = { family = "JetBrainsMono Nerd Font Mono", style = "Italic" }
 
 # Font size
-size = 13.0
+size = 15.0
 
 [colors]
 transparent_background_colors = true

@@ -82,9 +82,9 @@ nic() {
 
   tmux rename-window "$(basename "$current_dir")"
   editor_pane=$(tmux display-message -p '#{pane_id}')
-  tmux split-window -v -p 15 -c "$current_dir"
+  tmux split-window -v -p 20 -c "$current_dir"
   tmux select-pane -t "$editor_pane"
-  tmux split-window -h -p 30 -c "$current_dir"
+  tmux split-window -h -p 35 -c "$current_dir"
   ai_pane=$(tmux display-message -p '#{pane_id}')
   tmux send-keys -t "$ai_pane" "$ai" C-m
   tmux send-keys -t "$editor_pane" "$EDITOR" C-m
@@ -98,10 +98,10 @@ nichl() {
 
   tmux rename-window "$host"
   editor_pane=$(tmux display-message -p '#{pane_id}')
-  tmux split-window -v -p 15
+  tmux split-window -v -p 20
   tmux send-keys "ssh $host" C-m
   tmux select-pane -t "$editor_pane"
-  tmux split-window -h -p 30
+  tmux split-window -h -p 35
   ai_pane=$(tmux display-message -p '#{pane_id}')
   tmux send-keys -t "$ai_pane" "ssh -t $host 'zsh -i -c claude'" C-m
   tmux send-keys -t "$editor_pane" "ssh -t $host nvim" C-m
