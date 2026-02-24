@@ -91,6 +91,23 @@ nic() {
   tmux select-pane -t "$editor_pane"
 }
 
+# Same layout as nic but each pane SSHes into homelab
+nichl() {
+  local host="${1:-homelab}"
+  local editor_pane ai_pane
+
+  tmux rename-window "$host"
+  editor_pane=$(tmux display-message -p '#{pane_id}')
+  tmux split-window -v -p 15
+  tmux send-keys "ssh $host" C-m
+  tmux select-pane -t "$editor_pane"
+  tmux split-window -h -p 30
+  ai_pane=$(tmux display-message -p '#{pane_id}')
+  tmux send-keys -t "$ai_pane" "ssh -t $host 'zsh -i -c claude'" C-m
+  tmux send-keys -t "$editor_pane" "ssh -t $host nvim" C-m
+  tmux select-pane -t "$editor_pane"
+}
+
 unnic() {
   local dir
   dir="$(tmux display-message -p '#{pane_current_path}')"

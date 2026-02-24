@@ -4,6 +4,7 @@
 
 -- Save (replacing C-s which is tmux prefix)
 vim.keymap.set({ "n", "i", "v" }, "<leader>W", "<cmd>w<cr><esc>", { desc = "Save file" })
+vim.keymap.set("n", "<leader>Q", "<cmd>bd<cr>", { desc = "Close buffer" })
 
 -- Remove LazyVim's C-s save (conflicts with tmux prefix)
 vim.keymap.del({ "n", "i", "v" }, "<C-s>")
@@ -22,10 +23,10 @@ vim.keymap.set("i", "<C-b>", "<Esc>Bi", { desc = "Word backward" })
 vim.keymap.set("i", "<C-f>", "<ESC><Space>Wi", { desc = "Word forward" })
 
 -- Arrow movement in insert mode (only insert, no conflict with tmux navigator in normal mode)
-vim.keymap.set("i", "<C-h>", "<left>",  { desc = "Move left" })
+vim.keymap.set("i", "<C-h>", "<left>", { desc = "Move left" })
 vim.keymap.set("i", "<C-l>", "<right>", { desc = "Move right" })
-vim.keymap.set("i", "<C-j>", "<down>",  { desc = "Move down" })
-vim.keymap.set("i", "<C-k>", "<up>",    { desc = "Move up" })
+vim.keymap.set("i", "<C-j>", "<down>", { desc = "Move down" })
+vim.keymap.set("i", "<C-k>", "<up>", { desc = "Move up" })
 
 -- Select whole file
 vim.keymap.set("n", "<leader>a", "ggVG", { desc = "Select all" })

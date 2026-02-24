@@ -34,7 +34,9 @@ alias ..='cd ..'
 alias c='clear'
 alias x='exit 0'
 alias t='tmux attach || tmux new -s Work'
-command -v claude &>/dev/null    && alias cx='claude --dangerously-skip-permissions'
+if command -v claude &>/dev/null; then
+  [[ "$OSTYPE" == "darwin"* ]] && alias cx='claude --dangerously-skip-permissions' || alias cx='claude'
+fi
 command -v lazygit &>/dev/null   && alias lg='lazygit'
 
 if command -v nvim &>/dev/null; then
