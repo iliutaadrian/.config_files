@@ -31,6 +31,9 @@ vim.keymap.set("i", "<C-k>", "<up>", { desc = "Move up" })
 -- Select whole file
 vim.keymap.set("n", "<leader>a", "ggVG", { desc = "Select all" })
 
+-- Open current repo/file on GitHub
+vim.keymap.set("n", "<leader>gB", function() Snacks.gitbrowse() end, { desc = "Open in GitHub" })
+
 -- Reload current file
 vim.keymap.set("n", "<leader>rr", "<cmd>e!<CR>", { desc = "Reload file" })
 
