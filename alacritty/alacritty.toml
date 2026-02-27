@@ -57,5 +57,18 @@ foreground = "#c6b0d4"
 text   = "#38ff9c"
 background   = "#000000"
 
+[[hints.enabled]]
+command = "open"
+hyperlinks = true
+post_processing = true
+persist = false
+regex = "(ipfs:|ipns:|magnet:|mailto:|gemini://|gopher://|https://|http://|news:|file:|git://|ssh:|ftp://)[^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
 
+[hints.enabled.binding]
+key = "U"
+mods = "Shift|Alt"
+
+[hints.enabled.mouse]
+enabled = true
+mods = "Shift|Alt"
 

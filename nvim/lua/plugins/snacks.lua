@@ -27,17 +27,17 @@ return {
           files = {
             hidden = true,
             ignored = true,
-            exclude = { ".git", ".devenv" },
+            exclude = { ".git", ".devenv", "node_modules", ".direnv", ".idea", ".*cache.*", "*cache*", ".bundle", ".code-annotations", ".local_data" },
           },
           grep = {
             hidden = true,
             ignored = true,
-            exclude = { ".git", ".devenv" },
+            exclude = { ".git", ".devenv", "node_modules", ".direnv", ".idea", ".*cache.*", "*cache*", ".bundle", ".code-annotations", ".local_data" },
           },
           explorer = {
             hidden = true,
             ignored = true,
-            exclude = { ".git", ".devenv" },
+            exclude = { ".git", ".devenv", "node_modules", ".direnv", ".idea", ".*cache.*", "*cache*", ".bundle", ".code-annotations", ".local_data" },
           },
         },
       },

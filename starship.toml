@@ -1,7 +1,7 @@
 add_newline = true
 scan_timeout = 10
 
-format = "$directory$git_branch$git_status$line_break$character"
+format = "$directory$git_branch${custom.git_worktree}$git_status$line_break$character"
 
 # for performance profiling: uncomment and run `starship timings`
 # [custom]
@@ -40,6 +40,12 @@ renamed = "[»$count](#87d75f) "
 deleted = "[✘$count](#ff5f5f) "
 conflicted = "[=$count](#ff5f5f) "
 style = "#767676"
+
+[custom.git_worktree]
+command = "git rev-parse --git-dir | grep -o 'worktrees/[^/]*' | cut -d/ -f2"
+when = "git rev-parse --git-dir 2>/dev/null | grep -q worktrees"
+format = "[⎇ $output]($style) "
+style = "#d7af5f"
 
 [cmd_duration]
 disabled = true

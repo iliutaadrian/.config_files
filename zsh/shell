@@ -8,6 +8,11 @@ SAVEHIST=$HISTSIZE
 HISTFILE=~/.zsh_history
 HISTORY_IGNORE="(cd|cd *|ls|ls *|ll|lsa|rm -rf *|exit|x|c|cc)"
 
+# Remove "command not found" entries from history
+zshaddhistory() {
+  whence ${${(z)1}[1]} >| /dev/null || return 1
+}
+
 # Vi mode
 set -o vi
 KEYTIMEOUT=1

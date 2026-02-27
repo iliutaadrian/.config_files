@@ -3,8 +3,8 @@
 -- Add any additional keymaps here
 
 -- Save (replacing C-s which is tmux prefix)
-vim.keymap.set({ "n", "i", "v" }, "<leader>W", "<cmd>w<cr><esc>", { desc = "Save file" })
-vim.keymap.set("n", "<leader>Q", "<cmd>bd<cr>", { desc = "Close buffer" })
+vim.keymap.set({ "n", "i", "v" }, "<leader>bw", "<cmd>w<cr><esc>", { desc = "Save buffer" })
+vim.keymap.set("n", "<leader>bq", "<cmd>bd<cr>", { desc = "Close buffer" })
 
 -- Remove LazyVim's C-s save (conflicts with tmux prefix)
 vim.keymap.del({ "n", "i", "v" }, "<C-s>")
@@ -32,7 +32,9 @@ vim.keymap.set("i", "<C-k>", "<up>", { desc = "Move up" })
 vim.keymap.set("n", "<leader>a", "ggVG", { desc = "Select all" })
 
 -- Open current repo/file on GitHub
-vim.keymap.set("n", "<leader>gB", function() Snacks.gitbrowse() end, { desc = "Open in GitHub" })
+vim.keymap.set("n", "<leader>gB", function()
+  Snacks.gitbrowse()
+end, { desc = "Open in GitHub" })
 
 -- Reload current file
 vim.keymap.set("n", "<leader>rr", "<cmd>e!<CR>", { desc = "Reload file" })
