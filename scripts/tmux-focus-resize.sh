@@ -11,6 +11,9 @@ PANE_LEFT="$2"
 PANE_WIDTH="$3"
 WIN_WIDTH="$4"
 
+# Toggle check — skip resize if disabled
+[ "$(tmux show-option -gqv @nic-resize)" = "off" ] && exit 0
+
 PANE_COUNT=$(tmux list-panes | wc -l | tr -d ' ')
 
 # Only activate for nic layout (exactly 3 panes)
