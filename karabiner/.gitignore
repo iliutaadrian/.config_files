@@ -1,0 +1,4 @@
+# Track only karabiner.json — everything else is machine-local noise
+*
+!.gitignore
+!karabiner.json
