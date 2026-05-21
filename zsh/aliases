@@ -33,7 +33,7 @@ alias ..='cd ..'
 # Tools
 alias c='clear'
 alias x='exit 0'
-alias t='tmux attach || tmux new -s Work'
+alias t='tmux attach || tmux new -s config -c ~/config'
 if command -v claude &>/dev/null; then
   [[ "$OSTYPE" == "darwin"* ]] && alias cx='claude --dangerously-skip-permissions' || alias cx='claude'
 fi
