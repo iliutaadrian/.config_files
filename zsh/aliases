@@ -35,7 +35,13 @@ alias c='clear'
 alias x='exit 0'
 alias t='tmux attach || tmux new -s config -c ~/config'
 if command -v claude &>/dev/null; then
-  [[ "$OSTYPE" == "darwin"* ]] && alias cx='claude --dangerously-skip-permissions' || alias cx='claude'
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    alias cx='claude --dangerously-skip-permissions --continue'
+    alias cxn='claude --dangerously-skip-permissions'
+  else
+    alias cx='IS_SANDBOX=1 claude --dangerously-skip-permissions --continue'
+    alias cxn='IS_SANDBOX=1 claude --dangerously-skip-permissions'
+  fi
 fi
 command -v lazygit &>/dev/null   && alias lg='lazygit'
 
