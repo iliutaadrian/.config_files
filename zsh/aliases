@@ -36,10 +36,10 @@ alias x='exit 0'
 alias t='tmux attach || tmux new -s config -c ~/config'
 if command -v claude &>/dev/null; then
   if [[ "$OSTYPE" == "darwin"* ]]; then
-    alias cx='claude --dangerously-skip-permissions --continue'
+    cx() { claude --dangerously-skip-permissions --continue "$@" 2>/dev/null || claude --dangerously-skip-permissions "$@"; }
     alias cxn='claude --dangerously-skip-permissions'
   else
-    alias cx='IS_SANDBOX=1 claude --dangerously-skip-permissions --continue'
+    cx() { IS_SANDBOX=1 claude --dangerously-skip-permissions --continue "$@" 2>/dev/null || IS_SANDBOX=1 claude --dangerously-skip-permissions "$@"; }
     alias cxn='IS_SANDBOX=1 claude --dangerously-skip-permissions'
   fi
 fi
