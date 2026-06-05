@@ -8,10 +8,10 @@ yy() {
   rm -f -- "$tmp"
 }
 
-# Clear + tmux history
+# Clear + tmux history (tmux clear-history only on macOS)
 cc() {
   clear
-  tmux clear-history
+  [[ "$OSTYPE" == "darwin"* ]] && tmux clear-history
 }
 
 # Compression
@@ -91,20 +91,18 @@ nic() {
   tmux select-pane -t "$editor_pane"
 }
 
-# Same layout as nic but each pane SSHes into homelab
+# Same layout as nic but each pane SSHes into homelab (no bottom terminal pane)
 nichl() {
   local host="${1:-homelab}"
+  local remote_dir="/DATA/Sites"
   local editor_pane ai_pane
 
   tmux rename-window "$host"
   editor_pane=$(tmux display-message -p '#{pane_id}')
-  tmux split-window -v -p 20
-  tmux send-keys "ssh $host" C-m
-  tmux select-pane -t "$editor_pane"
   tmux split-window -h -p 35
   ai_pane=$(tmux display-message -p '#{pane_id}')
-  tmux send-keys -t "$ai_pane" "ssh -t $host 'zsh -i -c claude'" C-m
-  tmux send-keys -t "$editor_pane" "ssh -t $host nvim" C-m
+  tmux send-keys -t "$ai_pane" "ssh -t $host 'cd $remote_dir && zsh -i -c cx; exec zsh -l'" C-m
+  tmux send-keys -t "$editor_pane" "ssh -t $host 'cd $remote_dir && nvim; exec zsh -l'" C-m
   tmux select-pane -t "$editor_pane"
 }
 
