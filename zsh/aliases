@@ -1,22 +1,22 @@
 # File system
 if command -v eza &>/dev/null; then
-  alias ls='eza -lh --group-directories-first --icons=auto'
-  alias lsa='ls -a'
-  alias lt='eza --tree --level=2 --long --icons --git'
-  alias lta='lt -a'
+  alias ls='eza -lh --group-directories-first --icons=auto'   #@ List files (long, icons)
+  alias lsa='ls -a'   #@ List all files incl. hidden
+  alias lt='eza --tree --level=2 --long --icons --git'   #@ Tree view (2 levels)
+  alias lta='lt -a'   #@ Tree view incl. hidden
 else
-  alias ls='ls -lh --color=auto'
-  alias lsa='ls -lah --color=auto'
+  alias ls='ls -lh --color=auto'   #@ List files (long)
+  alias lsa='ls -lah --color=auto'   #@ List all files incl. hidden
 fi
 
 if command -v fzf &>/dev/null; then
-  alias ff="fzf --preview 'bat --style=numbers --color=always {}'"
-  alias eff='$EDITOR $(ff)'
+  alias ff="fzf --preview 'bat --style=numbers --color=always {}'"   #@ Fuzzy-find a file (with preview)
+  alias eff='$EDITOR $(ff)'   #@ Fuzzy-find and open a file in editor
 fi
 
 if command -v zoxide &>/dev/null; then
-  alias cd="zd"
-  zd() {
+  alias cd="zd"   #@ Smart cd (zoxide)
+  zd() {   #@ Smart cd (zoxide jump)
     if [ $# -eq 0 ]; then
       builtin cd ~ && return
     elif [ -d "$1" ]; then
@@ -28,34 +28,34 @@ if command -v zoxide &>/dev/null; then
 fi
 
 # Directories
-alias ..='cd ..'
+alias ..='cd ..'   #@ Go up one directory
 
 # Tools
-alias c='clear'
-alias x='exit 0'
-alias t='tmux attach || tmux new -s config -c ~/config'
+alias c='clear'   #@ Clear screen
+alias x='exit 0'   #@ Exit shell
+alias cheat="$HOME/config/scripts/cheatsheet.sh"   #@ Show this shortcuts cheatsheet
+alias t='tmux attach || tmux new -s config -c ~/config'   #@ Attach tmux (or start config session)
 if command -v claude &>/dev/null; then
   if [[ "$OSTYPE" == "darwin"* ]]; then
-    cx() { claude --dangerously-skip-permissions --continue "$@" 2>/dev/null || claude --dangerously-skip-permissions "$@"; }
-    alias cxn='claude --dangerously-skip-permissions'
+    cx() { claude --dangerously-skip-permissions --continue "$@" 2>/dev/null || claude --dangerously-skip-permissions "$@"; }   #@ Claude, continue last session here
+    alias cxn='claude --dangerously-skip-permissions'   #@ Claude, new session
   else
-    cx() { IS_SANDBOX=1 claude --dangerously-skip-permissions --continue "$@" 2>/dev/null || IS_SANDBOX=1 claude --dangerously-skip-permissions "$@"; }
-    alias cxn='IS_SANDBOX=1 claude --dangerously-skip-permissions'
+    cx() { IS_SANDBOX=1 claude --dangerously-skip-permissions --continue "$@" 2>/dev/null || IS_SANDBOX=1 claude --dangerously-skip-permissions "$@"; }   #@ Claude, continue last session here
+    alias cxn='IS_SANDBOX=1 claude --dangerously-skip-permissions'   #@ Claude, new session
   fi
 fi
-command -v lazygit &>/dev/null   && alias lg='lazygit'
+command -v lazygit &>/dev/null   && alias lg='lazygit'   #@ Open lazygit
 
 if command -v nvim &>/dev/null; then
-  n() { if [ "$#" -eq 0 ]; then command nvim . ; else command nvim "$@"; fi; }
-  # Open file in existing nvim instance (usage: nv <filepath>)
-  nv() { nvim --server ~/.cache/nvim/server.pipe --remote "$@" 2>/dev/null || nvim "$@"; }
+  n() { if [ "$#" -eq 0 ]; then command nvim . ; else command nvim "$@"; fi; }   #@ Open nvim (cwd if no args)
+  nv() { nvim --server ~/.cache/nvim/server.pipe --remote "$@" 2>/dev/null || nvim "$@"; }   #@ Open file in existing nvim instance
 fi
 
 # Personal (macOS only)
 if [[ "$OSTYPE" == "darwin"* ]]; then
-  alias nz="nvim ~/config/zsh/aliases"
-  alias nt="nvim ~/config/zsh/init"
-  alias query='python $HOME/.tinyquery/app.py'
+  alias nz="nvim ~/config/zsh/aliases"   #@ Edit zsh aliases
+  alias nt="nvim ~/config/zsh/init"   #@ Edit zsh init
+  alias query='python $HOME/.tinyquery/app.py'   #@ Launch tinyquery
 fi
 
-alias src="echo 'source ~/.zshrc' && source ~/.zshrc"
+alias src="echo 'source ~/.zshrc' && source ~/.zshrc"   #@ Reload zsh config

@@ -15,8 +15,8 @@ cc() {
 }
 
 # Compression
-compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }
-alias decompress="tar -xzf"
+compress() { tar -czf "${1%/}.tar.gz" "${1%/}"; }   #@ Compress a dir/file to .tar.gz
+alias decompress="tar -xzf"   #@ Extract a .tar.gz archive
 
 # Transcode a video to 1080p
 transcode-video-1080p() {
@@ -29,22 +29,22 @@ transcode-video-4K() {
 }
 
 # Image conversion
-img2jpg() {
+img2jpg() {   #@ Convert image to JPG (full size)
   img="$1"; shift
   magick "$img" $@ -quality 95 -strip ${img%.*}-converted.jpg
 }
 
-img2jpg-small() {
+img2jpg-small() {   #@ Convert image to JPG, max 1080px
   img="$1"; shift
   magick "$img" $@ -resize 1080x\> -quality 95 -strip ${img%.*}-small.jpg
 }
 
-img2jpg-medium() {
+img2jpg-medium() {   #@ Convert image to JPG, max 1800px
   img="$1"; shift
   magick "$img" $@ -resize 1800x\> -quality 95 -strip ${img%.*}-medium.jpg
 }
 
-img2png() {
+img2png() {   #@ Convert image to optimized PNG
   img="$1"; shift
   magick "$img" $@ -strip \
     -define png:compression-filter=5 \
@@ -55,7 +55,7 @@ img2png() {
 }
 
 # SSH Port Forwarding
-fip() {
+fip() {   #@ Forward remote port(s) to localhost over SSH
   [[ $# -lt 2 ]] && echo "Usage: fip <host> <port1> [port2] ..." && return 1
   local host="$1"; shift
   for port in "$@"; do
@@ -63,14 +63,14 @@ fip() {
   done
 }
 
-dip() {
+dip() {   #@ Stop SSH port forward(s)
   [[ $# -eq 0 ]] && echo "Usage: dip <port1> [port2] ..." && return 1
   for port in "$@"; do
     pkill -f "ssh.*-L $port:localhost:$port" && echo "Stopped forwarding port $port" || echo "No forwarding on port $port"
   done
 }
 
-lip() {
+lip() {   #@ List active SSH port forwards
   pgrep -af "ssh.*-L [0-9]+:localhost:[0-9]+" || echo "No active forwards"
 }
 
@@ -106,7 +106,7 @@ nichl() {
   tmux select-pane -t "$editor_pane"
 }
 
-unnic() {
+unnic() {   #@ Collapse nic layout back to one window
   local dir
   dir="$(tmux display-message -p '#{pane_current_path}')"
   local old_window
