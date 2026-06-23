@@ -22,6 +22,11 @@ vim.keymap.set("i", "<C-d>", "<ESC>cW", { desc = "Delete word forward" })
 vim.keymap.set("i", "<C-b>", "<Esc>Bi", { desc = "Word backward" })
 vim.keymap.set("i", "<C-f>", "<ESC><Space>Wi", { desc = "Word forward" })
 
+-- Ctrl-d = half page down (counterpart to Ctrl-u's half page up).
+-- Karabiner maps Ctrl-d -> Backspace globally, so neovim receives <BS> for
+-- Ctrl-d; remap <BS> in normal mode to the built-in <C-d>.
+vim.keymap.set("n", "<BS>", "<C-d>", { desc = "Half page down (Ctrl-d)" })
+
 -- Arrow movement in insert mode (only insert, no conflict with tmux navigator in normal mode)
 vim.keymap.set("i", "<C-h>", "<left>", { desc = "Move left" })
 vim.keymap.set("i", "<C-l>", "<right>", { desc = "Move right" })
