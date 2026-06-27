@@ -36,8 +36,33 @@ alias x='exit 0'   #@ Exit shell
 alias cheat="$HOME/config/scripts/cheatsheet.sh"   #@ Show this shortcuts cheatsheet
 alias t='tmux attach || tmux new -s config -c ~/config'   #@ Attach tmux (or start config session)
 if command -v claude &>/dev/null; then
+  # Stable session id derived from repo + current branch, so each branch keeps its own Claude session
+  _cx_sid() {
+    local key h
+    key="$(git rev-parse --show-toplevel 2>/dev/null):$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
+    if command -v md5sum &>/dev/null; then h=$(printf '%s' "$key" | md5sum | cut -d' ' -f1); else h=$(printf '%s' "$key" | md5 -q); fi
+    printf '%s-%s-4%s-8%s-%s' "${h:0:8}" "${h:8:4}" "${h:13:3}" "${h:17:3}" "${h:20:12}"
+  }
+  _cx() {  # $1 = env prefix (e.g. "IS_SANDBOX=1"), rest = args
+    local env="$1"; shift
+    if git rev-parse --abbrev-ref HEAD &>/dev/null; then
+      local sid branch; sid=$(_cx_sid); branch=$(git rev-parse --abbrev-ref HEAD)
+      setopt local_options null_glob
+      local found=( $HOME/.claude/projects/*/${sid}.jsonl )   # this branch's session, if it exists
+      if (( ${#found} )); then
+        print -P "%F{cyan}cx%f ⤷ %F{yellow}${branch}%f · resuming session ${sid:0:8}"
+        env $env claude --dangerously-skip-permissions --resume "$sid" "$@"   # resume this branch
+      else
+        print -P "%F{cyan}cx%f ⤷ %F{yellow}${branch}%f · new session ${sid:0:8}"
+        env $env claude --dangerously-skip-permissions --session-id "$sid" "$@"   # first time on branch: create it
+      fi
+    else
+      env $env claude --dangerously-skip-permissions --continue "$@" 2>/dev/null \
+        || env $env claude --dangerously-skip-permissions "$@"
+    fi
+  }
   if [[ "$OSTYPE" == "darwin"* ]]; then
-    cx() { claude --dangerously-skip-permissions --continue "$@" 2>/dev/null || claude --dangerously-skip-permissions "$@"; }   #@ Claude, continue last session here
+    cx() { _cx "" "$@"; }   #@ Claude, continue this branch's session here
     alias cxn='claude --dangerously-skip-permissions'   #@ Claude, new session
   else
     cx() { IS_SANDBOX=1 claude --dangerously-skip-permissions --continue "$@" 2>/dev/null || IS_SANDBOX=1 claude --dangerously-skip-permissions "$@"; }   #@ Claude, continue last session here
