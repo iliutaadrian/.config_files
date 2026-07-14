@@ -26,12 +26,33 @@ return {
       code = { sign = false, width = "block", right_pad = 1, language_pad = 1 },
       bullet = { right_pad = 1 },
       checkbox = { enabled = true },
-      -- 'trimmed': don't pad every cell to the column's widest entry — one long cell was
-      -- forcing whole columns wide, wrapping rows and shattering the table.
-      pipe_table = { cell = "trimmed" },
+      -- Tables are owned by markdown-table-wrap.nvim below (wraps long cell content).
+      pipe_table = { enabled = false },
     },
     keys = {
-      { "<leader>um", "<cmd>RenderMarkdown toggle<cr>", desc = "Toggle markdown render" },
+      -- One toggle for the whole rendered view: markdown rendering + wrapped-table preview.
+      {
+        "<leader>um",
+        function()
+          vim.cmd("RenderMarkdown toggle")
+          if require("render-markdown.state").enabled then
+            vim.cmd("MarkdownTableEnableAutoPreview")
+            vim.cmd("MarkdownTableRefresh")
+          else
+            vim.cmd("MarkdownTableDisableAutoPreview")
+            vim.cmd("MarkdownTableClosePreview")
+          end
+        end,
+        desc = "Toggle markdown render",
+      },
     },
+  },
+
+  -- Table renderer: display-only inline tables with wrapped cell content.
+  -- Auto-renders in markdown buffers; source is never modified.
+  {
+    "ice345/markdown-table-wrap.nvim",
+    ft = "markdown",
+    opts = {},
   },
 }
