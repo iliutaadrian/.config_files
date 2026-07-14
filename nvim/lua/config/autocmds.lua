@@ -7,6 +7,25 @@
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
+-- Markdown: soft-wrap prose (global wrap is off; the deleted group above also enabled
+-- spell, which we don't want)
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "markdown" },
+  callback = function(ev)
+    vim.schedule(function()
+      if not vim.api.nvim_buf_is_valid(ev.buf) then
+        return
+      end
+      local win = vim.fn.bufwinid(ev.buf)
+      if win == -1 then
+        return
+      end
+      vim.wo[win][0].wrap = true
+      vim.wo[win][0].linebreak = true -- break at word boundaries, not mid-word
+    end)
+  end,
+})
+
 -- Make vertical split separator visible
 vim.api.nvim_create_autocmd("ColorScheme", {
   callback = function()
