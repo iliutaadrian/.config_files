@@ -1,6 +1,6 @@
 #!/bin/bash
 
-AERO="$HOME/.nix-profile/bin/aerospace"
+AERO="/opt/homebrew/bin/aerospace"
 sketchybar --add event aerospace_workspace_change
 
 WORKSPACES="1 2 3 4 5 6 7 8 9 B E M N P T V"

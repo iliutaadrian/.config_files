@@ -1,7 +1,7 @@
 #!/bin/bash
 
 source "$CONFIG_DIR/colors.sh"
-AERO="$HOME/.nix-profile/bin/aerospace"
+AERO="/opt/homebrew/bin/aerospace"
 sid="$1"
 
 # subtle transparent dark blue for the active workspace pill (tweak freely)
