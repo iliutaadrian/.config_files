@@ -230,3 +230,9 @@ run = "move-node-to-workspace 6"
 if.app-id = 'com.readdle.SparkDesktop'
 run = "move-node-to-workspace 5"
 
+# OpenWhispr dictation overlay: float it so it pops on the CURRENT workspace
+# instead of being tiled onto ws3 and yanking focus there when the hotkey fires.
+[[on-window-detected]]
+if.app-id = 'com.gizmolabs.openwhispr'
+run = ['layout floating']
+
