@@ -1,0 +1,4 @@
+# Fetched by `ya pkg install` from pinned revs in package.toml
+plugins/*
+!plugins/fzf-dirs.yazi
+flavors/*

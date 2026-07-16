@@ -21,6 +21,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   export PATH="$HOME/Library/Python/3.12/bin:$PATH"
   export PATH="$HOME/.opencode/bin:$PATH"
   export PATH="$HOME/.antigravity/antigravity/bin:$PATH"
+  export PATH="/opt/homebrew/opt/trash-cli/bin:$PATH"  # keg-only; yazi restore.yazi needs trash-put/restore
 
   export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"
   export CPPFLAGS="-I/usr/local/opt/openssl@1.1/include"

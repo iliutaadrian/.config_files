@@ -1,0 +1,28 @@
+# Yazi keymap
+# Docs: https://yazi-rs.github.io/docs/configuration/keymap
+# Press `g` to see the favorites menu (which-key popup), `~` for full help.
+
+[mgr]
+prepend_keymap = [
+  # Smart enter: open file or enter directory with one key
+  { on = "l", run = "plugin smart-enter", desc = "Enter dir / open file" },
+  { on = "<Enter>", run = "plugin smart-enter", desc = "Enter dir / open file" },
+
+  # Favorites (Finder sidebar equivalent — press `g` to see this list)
+  { on = ["g", "s"], run = "cd ~/Sites",                                      desc = "Sites" },
+  { on = ["g", "l"], run = "cd ~/Documents/lifeos",                           desc = "lifeos" },
+  { on = ["g", "b"], run = 'cd "~/Documents/lifeos/2. Areas/Business"',       desc = "Business" },
+  { on = ["g", "c"], run = "cd ~/config",                                     desc = "config" },
+  { on = ["g", "d"], run = "cd ~/Downloads",                                  desc = "Downloads" },
+  { on = ["g", "o"], run = "cd ~/Documents",                                  desc = "Documents" },
+  { on = ["g", "e"], run = "cd ~/Desktop",                                    desc = "Desktop" },
+  { on = ["g", "<Space>"], run = "plugin zoxide",                           desc = "Zoxide" },
+
+  # Tools
+  { on = ["c", "m"], run = "plugin chmod", desc = "Chmod selected files" },
+  { on = "?", run = "help", desc = "Show all shortcuts" },
+
+  # Undoable delete: d trashes via trash-cli, u restores last deleted
+  { on = "d", run = 'shell -- trash-put "$@"', desc = "Trash selected (undoable)" },
+  { on = "u", run = "plugin restore", desc = "Undo last delete" },
+]

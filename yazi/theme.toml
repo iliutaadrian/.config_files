@@ -1,0 +1,3 @@
+# Yazi theme — flavor installed via `ya pkg add bennyyip/gruvbox-dark`
+[flavor]
+dark = "gruvbox-dark"
