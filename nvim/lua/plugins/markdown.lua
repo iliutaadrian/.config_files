@@ -21,7 +21,7 @@ return {
       -- Render in normal/command mode; insert mode shows raw text for editing.
       render_modes = { "n", "c", "t" },
       -- Keep the cursor line rendered too (raw reveal made tables fall apart while moving around).
-      anti_conceal = { enabled = false },
+      anti_conceal = { enabled = true },
       heading = { sign = false, width = "block", left_pad = 0, right_pad = 2 },
       code = { sign = false, width = "block", right_pad = 1, language_pad = 1 },
       bullet = { right_pad = 1 },
