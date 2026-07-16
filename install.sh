@@ -28,6 +28,11 @@ fi
 lns ~/config/.zshrc         ~/.zshrc
 lns ~/config/starship.toml  ~/.config/starship.toml
 lns ~/config/nvim           ~/.config/nvim
+lns ~/config/yazi           ~/.config/yazi
+lns ~/config/ghostty        ~/.config/ghostty
+
+# Yazi plugins/flavors (pinned in yazi/package.toml)
+command -v ya &> /dev/null && ya pkg install
 
 if [[ "$OS" == "Darwin" ]]; then
   lns ~/config/aerospace ~/.config/aerospace
