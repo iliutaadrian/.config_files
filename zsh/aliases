@@ -80,7 +80,6 @@ fi
 if [[ "$OSTYPE" == "darwin"* ]]; then
   alias nz="nvim ~/config/zsh/aliases"   #@ Edit zsh aliases
   alias nt="nvim ~/config/zsh/init"   #@ Edit zsh init
-  alias query='python $HOME/.tinyquery/app.py'   #@ Launch tinyquery
 fi
 
 alias src="echo 'source ~/.zshrc' && source ~/.zshrc"   #@ Reload zsh config
