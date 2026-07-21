@@ -35,3 +35,6 @@ palette = 6=#ff5dd4
 palette = 7=#15fca2
 
 # URLs: cmd+click opens (builtin), no extra config needed
+
+# Shift+Enter = newline (Claude Code / REPLs multiline input)
+keybind = shift+enter=text:\x1b\r
