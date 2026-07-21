@@ -3,8 +3,10 @@
 -- Add any additional keymaps here
 
 -- Save (replacing C-s which is tmux prefix)
-vim.keymap.set({ "n", "i", "v" }, "<leader>bw", "<cmd>w<cr><esc>", { desc = "Save buffer" })
-vim.keymap.set("n", "<leader>bq", function() Snacks.bufdelete() end, { desc = "Close buffer" })
+vim.keymap.set("n", "<leader>bw", "<cmd>w<cr>", { desc = "Save buffer" })
+vim.keymap.set("n", "<leader>bq", function()
+  Snacks.bufdelete()
+end, { desc = "Close buffer" })
 
 -- Remove LazyVim's C-s save (conflicts with tmux prefix)
 vim.keymap.del({ "n", "i", "v" }, "<C-s>")
