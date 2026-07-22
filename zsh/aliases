@@ -34,7 +34,7 @@ alias ..='cd ..'   #@ Go up one directory
 alias c='clear'   #@ Clear screen
 alias x='exit 0'   #@ Exit shell
 alias cheat="$HOME/config/scripts/cheatsheet.sh"   #@ Show this shortcuts cheatsheet
-alias t='tmux attach || tmux new -s config -c ~/config'   #@ Attach tmux (or start config session)
+alias t='tmux attach || tmux new -As config -c ~/config'   #@ Attach tmux (or start config session)
 if command -v claude &>/dev/null; then
   # Stable session id derived from repo + current branch, so each branch keeps its own Claude session
   _cx_sid() {
@@ -48,13 +48,16 @@ if command -v claude &>/dev/null; then
     if git rev-parse --abbrev-ref HEAD &>/dev/null; then
       local sid branch; sid=$(_cx_sid); branch=$(git rev-parse --abbrev-ref HEAD)
       setopt local_options null_glob
-      local found=( $HOME/.claude/projects/*/${sid}.jsonl )   # this branch's session, if it exists
-      if (( ${#found} )); then
+      # resume only if a session file exists AND holds a real message (stub files
+      # from an unused --session-id start can't be resumed → "No conversation found")
+      local found=( $HOME/.claude/projects/*/${sid}.jsonl )
+      if (( ${#found} )) && grep -ql '"type":"user"' "${found[1]}" 2>/dev/null; then
         print -P "%F{cyan}cx%f ⤷ %F{yellow}${branch}%f · resuming session ${sid:0:8}"
-        env $env claude --dangerously-skip-permissions --resume "$sid" "$@"   # resume this branch
+        env $env claude --dangerously-skip-permissions --resume "$sid" "$@"
       else
+        (( ${#found} )) && rm -f "${found[1]}"   # drop empty stub so --session-id can reuse the id
         print -P "%F{cyan}cx%f ⤷ %F{yellow}${branch}%f · new session ${sid:0:8}"
-        env $env claude --dangerously-skip-permissions --session-id "$sid" "$@"   # first time on branch: create it
+        env $env claude --dangerously-skip-permissions --session-id "$sid" "$@"
       fi
     else
       env $env claude --dangerously-skip-permissions --continue "$@" 2>/dev/null \
