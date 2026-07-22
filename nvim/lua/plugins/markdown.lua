@@ -35,12 +35,22 @@ return {
         "<leader>um",
         function()
           vim.cmd("RenderMarkdown toggle")
+          local buf = vim.api.nvim_get_current_buf()
           if require("render-markdown.state").enabled then
             vim.cmd("MarkdownTableEnableAutoPreview")
             vim.cmd("MarkdownTableRefresh")
+            -- Reading view: wrap on, diagnostics off (remember prior state).
+            vim.b[buf].um_prev_wrap = vim.wo.wrap
+            vim.wo.wrap = true
+            vim.diagnostic.enable(false, { bufnr = buf })
           else
             vim.cmd("MarkdownTableDisableAutoPreview")
             vim.cmd("MarkdownTableClosePreview")
+            -- Restore edit view: prior wrap, diagnostics back on.
+            if vim.b[buf].um_prev_wrap ~= nil then
+              vim.wo.wrap = vim.b[buf].um_prev_wrap
+            end
+            vim.diagnostic.enable(true, { bufnr = buf })
           end
         end,
         desc = "Toggle markdown render",
@@ -53,6 +63,8 @@ return {
   {
     "ice345/markdown-table-wrap.nvim",
     ft = "markdown",
-    opts = {},
+    opts = {
+      inline_disable_wrap = false, -- keep window wrap on; don't force nowrap for table preview
+    },
   },
 }

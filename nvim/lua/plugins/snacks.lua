@@ -2,6 +2,14 @@ return {
   {
     "folke/snacks.nvim",
     opts = {
+      image = {
+        -- Off by default; gated behind <leader>um (see markdown.lua).
+        enabled = true,
+        doc = {
+          inline = false, -- render image inline in buffer (Ghostty/kitty protocol)
+          float = true,
+        },
+      },
       dashboard = {
         preset = {
           header = [[
